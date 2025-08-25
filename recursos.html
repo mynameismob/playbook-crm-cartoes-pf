@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recursos – Playbook CRM 360°</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        :root {
+            --primary-red: #e30b5d;
+            --primary-blue: #2a2a72;
+            --secondary-green: #00b894;
+            --gradient-primary: linear-gradient(90deg, #2a2a72 0%, #009ffd 100%);
+            --gradient-secondary: linear-gradient(90deg, #e30b5d 0%, #ff8a00 100%);
+            --gradient-accent: linear-gradient(90deg, #00b894 0%, #00cec9 100%);
+            --bg-light: #f8f9fa;
+            --bg-dark: #0e1a2b;
+            --text-dark: #1f1f1f;
+            --text-light: #f3f4f6;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        body.dark {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        .modern-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        body.dark .modern-header {
+            background-color: rgba(14, 26, 43, 0.8);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .resource-card {
+            background-color: rgba(255,255,255,0.8);
+            border: 1px solid #ddd;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        body.dark .resource-card {
+            background-color: rgba(20,33,54,0.8);
+            border-color: #2a2a72;
+        }
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            background: var(--gradient-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .cta-button i {
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+        body.dark .cta-button {
+            background: var(--gradient-primary);
+        }
+        /* Quiz styles */
+        .quiz-question { margin-bottom: 1rem; }
+        .quiz-options label { display: block; margin-bottom: 0.5rem; cursor: pointer; }
+        .result { font-weight: 600; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg modern-header px-3">
+        <a class="navbar-brand" href="index.html">Playbook CRM 360°</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                <li class="nav-item"><a class="nav-link" href="playbook.html">Playbook Completo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container py-5">
+        <h1 class="section-title">Recursos</h1>
+        <p>Explore ferramentas interativas, quizzes e materiais de leitura para aprofundar seus conhecimentos em CRM e cartões PF.</p>
+
+        <section id="ferramentas" class="mb-5">
+            <h2 class="section-title">Ferramentas Interativas</h2>
+            <div class="resource-card">
+                <h3>Calculadora de LTV</h3>
+                <p>Insira os valores abaixo para calcular o Lifetime Value de um cliente.</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="ltvTicket" class="form-label">Ticket Médio (R$)</label>
+                        <input type="number" class="form-control" id="ltvTicket" placeholder="Ex.: 150" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ltvFreq" class="form-label">Frequência de Compra (vezes por mês)</label>
+                        <input type="number" class="form-control" id="ltvFreq" placeholder="Ex.: 2" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ltvTempo" class="form-label">Tempo de Vida (meses)</label>
+                        <input type="number" class="form-control" id="ltvTempo" placeholder="Ex.: 24" />
+                    </div>
+                </div>
+                <button class="cta-button mt-3" onclick="calcularLTV()"><i data-feather="activity"></i> Calcular LTV</button>
+                <p id="ltvResultado" class="result"></p>
+            </div>
+            <div class="resource-card">
+                <h3>Simulador de Segmentação (RFM)</h3>
+                <p>Avalie o valor do cliente com base em recência, frequência e valor de compra.</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label for="rfmRecencia" class="form-label">Recência (dias desde última compra)</label>
+                        <input type="number" class="form-control" id="rfmRecencia" placeholder="Ex.: 30" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="rfmFrequencia" class="form-label">Frequência (número de compras)</label>
+                        <input type="number" class="form-control" id="rfmFrequencia" placeholder="Ex.: 5" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="rfmValor" class="form-label">Valor Médio (R$)</label>
+                        <input type="number" class="form-control" id="rfmValor" placeholder="Ex.: 200" />
+                    </div>
+                </div>
+                <button class="cta-button mt-3" onclick="calcularRFM()"><i data-feather="pie-chart"></i> Classificar Cliente</button>
+                <p id="rfmResultado" class="result"></p>
+            </div>
+        </section>
+
+        <section id="quizzes" class="mb-5">
+            <h2 class="section-title">Quizzes</h2>
+            <div class="resource-card">
+                <h3>Quiz de Fundamentos de CRM</h3>
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <p>1. O que significa a sigla CRM?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="0" /> Customer Risk Management</label>
+                            <label><input type="radio" name="q1" value="1" /> Customer Relationship Management</label>
+                            <label><input type="radio" name="q1" value="0" /> Client Revenue Metric</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>2. Qual é o principal objetivo do LGPD no contexto de CRM?</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="1" /> Proteger os dados pessoais e garantir o consentimento do titular</label>
+                            <label><input type="radio" name="q2" value="0" /> Aumentar as taxas de aquisição de clientes</label>
+                            <label><input type="radio" name="q2" value="0" /> Reduzir custos operacionais</label>
+                        </div>
+                    </div>
+                    <div class="quiz-question">
+                        <p>3. Em uma estratégia RFM, clientes com alta frequência e alto valor são classificados como:</p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="1" /> Campeões</label>
+                            <label><input type="radio" name="q3" value="0" /> Clientes em risco</label>
+                            <label><input type="radio" name="q3" value="0" /> Novos visitantes</label>
+                        </div>
+                    </div>
+                    <button type="button" class="cta-button mt-2" onclick="calcularQuiz()"><i data-feather="check-circle"></i> Enviar Respostas</button>
+                </form>
+                <p id="quizResultado" class="result"></p>
+            </div>
+        </section>
+
+        <section id="materiais" class="mb-5">
+            <h2 class="section-title">Materiais de Leitura</h2>
+            <div class="resource-card">
+                <h3>Artigos e Estudos de Caso</h3>
+                <ul>
+                    <li><a href="#" target="_blank">Estudo de Caso: Campanha de Cashback para Cartões PF</a></li>
+                    <li><a href="#" target="_blank">Tendências de CRM com IA e Personalização em Tempo Real</a></li>
+                </ul>
+                <h3>E‑books e Whitepapers</h3>
+                <ul>
+                    <li><a href="#" target="_blank">Guia Completo de Métricas de CRM</a></li>
+                    <li><a href="#" target="_blank">Whitepaper: LGPD no Setor Financeiro</a></li>
+                </ul>
+                <h3>Links Úteis</h3>
+                <ul>
+                    <li><a href="https://blog.hubspot.com/" target="_blank">Blog HubSpot CRM</a></li>
+                    <li><a href="https://www.forbytes.com/blog/banking-cross-selling" target="_blank">Artigo sobre Cross‑Sell em Banking</a></li>
+                    <li><a href="https://www.investopedia.com" target="_blank">Investopedia</a></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-4">
+        <p class="mb-0">&copy; 2025 Playbook CRM 360°. Desenvolvido com ❤️ para o Santander.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Feather icons replacement
+        feather.replace();
+        function calcularLTV() {
+            const ticket = parseFloat(document.getElementById('ltvTicket').value) || 0;
+            const freq = parseFloat(document.getElementById('ltvFreq').value) || 0;
+            const tempo = parseFloat(document.getElementById('ltvTempo').value) || 0;
+            const ltv = ticket * freq * tempo;
+            document.getElementById('ltvResultado').textContent = 'LTV Estimado: R$ ' + ltv.toFixed(2);
+        }
+        function calcularRFM() {
+            const rec = parseFloat(document.getElementById('rfmRecencia').value) || 0;
+            const freq = parseFloat(document.getElementById('rfmFrequencia').value) || 0;
+            const valor = parseFloat(document.getElementById('rfmValor').value) || 0;
+            let classificacao;
+            if (rec <= 30 && freq >= 10 && valor >= 500) {
+                classificacao = 'Campeões';
+            } else if (rec <= 30 && freq >= 5) {
+                classificacao = 'Clientes Leais';
+            } else if (valor >= 500) {
+                classificacao = 'Gastadores';
+            } else if (freq <= 2) {
+                classificacao = 'Clientes em risco';
+            } else {
+                classificacao = 'Potenciais clientes';
+            }
+            document.getElementById('rfmResultado').textContent = 'Classificação: ' + classificacao;
+        }
+        function calcularQuiz() {
+            const form = document.getElementById('quizForm');
+            let score = 0;
+            const respostas = form.querySelectorAll('input[type=radio]:checked');
+            respostas.forEach(r => { score += parseInt(r.value); });
+            const total = 3;
+            document.getElementById('quizResultado').textContent = `Você acertou ${score} de ${total} perguntas.`;
+        }
+    </script>
+</body>
+</html>
