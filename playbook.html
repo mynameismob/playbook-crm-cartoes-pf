@@ -1,34 +1,180 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playbook Completo – CRM Cartões PF</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
-body { font-family:'Inter', sans-serif; background:#f8f9fa; margin:0; }
-header { background:#004481; color:white; padding:20px; text-align:center; }
-.container-main { display:flex; }
-.toc { width:250px; background:white; border-right:1px solid #dee2e6; padding:20px; overflow-y:auto; height:calc(100vh - 80px); }
-.content { flex:1; padding:20px; overflow-y:auto; height:calc(100vh - 80px); }
-.toc a { text-decoration:none; color:#004481; font-size:0.9rem; }
-.toc a:hover { text-decoration:underline; }
-h2 { margin-top:2rem; color:#004481; }
-h3 { margin-top:1.5rem; color:#0066cc; }
-h4 { margin-top:1.2rem; color:#00a894; }
-p { margin-top:1rem; line-height:1.6; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playbook Completo – CRM Cartões PF</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    :root {
+      --primary-red: #EC0000;
+      --primary-blue: #004481;
+      --secondary-green: #00D4AA;
+      --secondary-orange: #FF6B35;
+      --neutral-light: #F8F9FA;
+      --neutral-dark: #2C3E50;
+      --gradient-primary: linear-gradient(135deg, #004481 0%, #0066CC 100%);
+      --gradient-secondary: linear-gradient(135deg, #00D4AA 0%, #004481 100%);
+      --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #EC0000 100%);
+      --shadow-soft: 0 10px 40px rgba(0, 68, 129, 0.1);
+      --shadow-medium: 0 20px 60px rgba(0, 68, 129, 0.15);
+      --border-radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--neutral-dark);
+      background: var(--neutral-light);
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .modern-header {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 68, 129, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    .navbar-brand {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-link {
+      font-weight: 500;
+      color: var(--neutral-dark) !important;
+      transition: var(--transition);
+    }
+    .nav-link:hover {
+      color: var(--primary-blue) !important;
+    }
+
+    /* Container */
+    .container-main {
+      display: flex;
+      margin-top: 80px; /* space for fixed header */
+      height: calc(100vh - 80px);
+    }
+
+    /* Sidebar TOC */
+    .toc {
+      width: 280px;
+      background: white;
+      border-right: 1px solid rgba(0, 68, 129, 0.1);
+      padding: 1.5rem;
+      overflow-y: auto;
+      box-shadow: var(--shadow-soft);
+    }
+    .toc h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+    }
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .toc li {
+      margin-bottom: 0.4rem;
+    }
+    .toc li a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .toc li a:hover {
+      color: var(--primary-red);
+      text-decoration: underline;
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .content h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .content h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #0066cc;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .content h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: #00a894;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .content p {
+      font-size: 1rem;
+      color: var(--neutral-dark);
+      opacity: 0.9;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+    /* Scrollbar styling */
+    .toc::-webkit-scrollbar, .content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .toc::-webkit-scrollbar-thumb, .content::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 68, 129, 0.2);
+      border-radius: 3px;
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>Playbook Completo – CRM Cartões PF</h1>
-</header>
-<div class="container-main">
-<nav class="toc">
+  <header class="modern-header">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid px-4">
+        <a class="navbar-brand" href="index.html">Playbook CRM 360°</a>
+        <div class="ms-auto d-flex align-items-center">
+          <a class="nav-link" href="index.html">Início</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container-main">
+    <nav class="toc">
 <h2>Índice</h2>
-<ul><li><a href="#1-conceitos-fundamentais-de-crm-bancario-e-cartoes-pf">1. Conceitos Fundamentais de CRM Bancário e Cartões PF</a></li><li style="margin-left:20px;"><a href="#1-1-introducao-ao-crm-no-setor-bancario">1.1. Introdução ao CRM no Setor Bancário</a></li><li style="margin-left:20px;"><a href="#1-2-estrategias-de-crm-para-cartoes-de-pessoa-fisica">1.2. Estratégias de CRM para Cartões de Pessoa Física</a></li><li style="margin-left:20px;"><a href="#1-3-visao-institucional-do-santander">1.3. Visão Institucional do Santander</a></li><li><a href="#2-ambiente-regulatorio-e-compliance">2. Ambiente Regulatório e Compliance</a></li><li style="margin-left:20px;"><a href="#2-1-lei-geral-de-protecao-de-dados-lgpd">2.1. Lei Geral de Proteção de Dados (LGPD)</a></li><li style="margin-left:20px;"><a href="#2-2-regulamentacoes-do-banco-central-bacen">2.2. Regulamentações do Banco Central (Bacen)</a></li><li style="margin-left:20px;"><a href="#2-3-regulamentacoes-da-anatel-e-whatsapp">2.3. Regulamentações da Anatel e WhatsApp</a></li><li style="margin-left:20px;"><a href="#2-4-open-finance">2.4. Open Finance</a></li><li><a href="#3-jornada-do-cliente-e-reguas-de-relacionamento">3. Jornada do Cliente e Réguas de Relacionamento</a></li><li style="margin-left:20px;"><a href="#3-1-onboarding">3.1. Onboarding</a></li><li style="margin-left:20px;"><a href="#3-2-uso-recorrente-e-engajamento">3.2. Uso Recorrente e Engajamento</a></li><li style="margin-left:20px;"><a href="#3-3-fatura-e-pagamento">3.3. Fatura e Pagamento</a></li><li style="margin-left:20px;"><a href="#3-4-risco-e-retencao">3.4. Risco e Retenção</a></li><li style="margin-left:20px;"><a href="#3-5-frequencia-maxima-por-canal">3.5. Frequência Máxima por Canal</a></li><li><a href="#4-metricas-e-kpis-de-crm">4. Métricas e KPIs de CRM</a></li><li style="margin-left:20px;"><a href="#4-1-kpis-classicos-macro">4.1. KPIs Clássicos (Macro)</a></li><li style="margin-left:20px;"><a href="#4-2-kpis-operacionais-micro">4.2. KPIs Operacionais (Micro)</a></li><li><a href="#5-stack-tecnologico-e-governanca-de-crm">5. Stack Tecnológico e Governança de CRM</a></li><li style="margin-left:20px;"><a href="#5-1-integracao-de-sistemas">5.1. Integração de Sistemas</a></li><li style="margin-left:20px;"><a href="#5-2-modelos-de-propensao">5.2. Modelos de Propensão</a></li><li style="margin-left:20px;"><a href="#5-3-experimentacao-e-otimizacao">5.3. Experimentação e Otimização</a></li><li style="margin-left:20px;"><a href="#5-4-governanca-e-comites">5.4. Governança e Comitês</a></li><li><a href="#6-rotina-e-habilidades-do-analista-senior-de-crm">6. Rotina e Habilidades do Analista Sênior de CRM</a></li><li style="margin-left:20px;"><a href="#6-1-atividades-diarias">6.1. Atividades Diárias</a></li><li style="margin-left:20px;"><a href="#6-2-atividades-semanais">6.2. Atividades Semanais</a></li><li style="margin-left:20px;"><a href="#6-3-atividades-mensais">6.3. Atividades Mensais</a></li><li><a href="#7-comunicacao-e-mensagens-compliance-friendly">7. Comunicação e Mensagens (Compliance-Friendly)</a></li><li style="margin-left:20px;"><a href="#7-1-mensagens-de-push">7.1. Mensagens de Push</a></li><li style="margin-left:20px;"><a href="#7-2-mensagens-de-whatsapp-opt-in-e-template-aprovado">7.2. Mensagens de WhatsApp (Opt-in e Template Aprovado)</a></li><li style="margin-left:20px;"><a href="#7-3-mensagens-esfera-incentivo-e-beneficios">7.3. Mensagens Esfera (Incentivo e Benefícios)</a></li><li style="margin-left:20px;"><a href="#7-4-mensagens-de-retencao-upgrade">7.4. Mensagens de Retenção/Upgrade</a></li><li><a href="#8-agenda-de-impacto-primeiros-90-dias">8. Agenda de Impacto: Primeiros 90 Dias</a></li><li style="margin-left:20px;"><a href="#8-1-sprint-ftc-first-transaction-campaign">8.1. Sprint FTC (First Transaction Campaign)</a></li><li style="margin-left:20px;"><a href="#8-2-mega-campanha-esfera">8.2. Mega Campanha Esfera</a></li><li style="margin-left:20px;"><a href="#8-3-serie-educativa-sobre-rotativo-parcelamento">8.3. Série Educativa sobre Rotativo/Parcelamento</a></li><li style="margin-left:20px;"><a href="#8-4-projeto-piloto-de-open-finance-para-pre-aprovados">8.4. Projeto Piloto de Open Finance para Pré-Aprovados</a></li><li><a href="#9-tendencias-e-inovacoes-em-crm-para-cartoes">9. Tendências e Inovações em CRM para Cartões</a></li><li><a href="#10-portfolio-de-cartoes-pf-santander-brasil">10. Portfólio de Cartões PF Santander Brasil</a></li><li style="margin-left:20px;"><a href="#10-1-cartoes-de-entrada-basicos">10.1. Cartões de Entrada/Básicos</a></li><li style="margin-left:20px;"><a href="#10-2-cartoes-intermediarios">10.2. Cartões Intermediários</a></li><li style="margin-left:20px;"><a href="#10-3-cartoes-premium-alta-renda">10.3. Cartões Premium/Alta Renda</a></li><li style="margin-left:20px;"><a href="#10-4-cartoes-co-branded-e-parcerias">10.4. Cartões Co-branded e Parcerias</a></li><li><a href="#11-estrategias-avancadas-de-crm-em-cartoes">11. Estratégias Avançadas de CRM em Cartões</a></li><li style="margin-left:20px;"><a href="#11-1-aquisicao-e-onboarding">11.1. Aquisição e Onboarding</a></li><li style="margin-left:20px;"><a href="#11-2-engajamento-e-uso">11.2. Engajamento e Uso</a></li><li style="margin-left:20px;"><a href="#11-3-retencao-e-fidelizacao">11.3. Retenção e Fidelização</a></li><li style="margin-left:20px;"><a href="#11-4-cross-sell-e-up-sell">11.4. Cross-sell e Up-sell</a></li><li><a href="#12-analise-de-dados-e-metricas-avancadas">12. Análise de Dados e Métricas Avançadas</a></li><li style="margin-left:20px;"><a href="#12-1-metricas-avancadas">12.1. Métricas Avançadas</a></li><li style="margin-left:20px;"><a href="#12-2-tecnicas-de-analise">12.2. Técnicas de Análise</a></li><li style="margin-left:20px;"><a href="#12-3-ferramentas-e-plataformas">12.3. Ferramentas e Plataformas</a></li><li><a href="#13-funcionalidades-e-jornadas-complementares">13. Funcionalidades e Jornadas Complementares</a></li><li style="margin-left:20px;"><a href="#13-1-funcionalidades-do-cartao-e-app-way">13.1. Funcionalidades do Cartão e App Way</a></li><li style="margin-left:20px;"><a href="#13-2-jornadas-especificas">13.2. Jornadas Específicas</a></li><li style="margin-left:20px;"><a href="#13-3-integracao-com-outros-produtos-santander">13.3. Integração com Outros Produtos Santander</a></li><li><a href="#14-otimizacao-de-reguas-e-workflows">14. Otimização de Réguas e Workflows</a></li><li style="margin-left:20px;"><a href="#14-1-otimizacao-das-reguas-existentes">14.1. Otimização das Réguas Existentes</a></li><li style="margin-left:20px;"><a href="#14-2-proposicao-de-novos-workflows">14.2. Proposição de Novos Workflows</a></li><li style="margin-left:20px;"><a href="#14-3-automacao-e-inteligencia-artificial">14.3. Automação e Inteligência Artificial</a></li><li><a href="#15-melhores-praticas-globais-e-benchmarks">15. Melhores Práticas Globais e Benchmarks</a></li><li style="margin-left:20px;"><a href="#15-1-estrategias-por-fase-do-ciclo-de-vida">15.1. Estratégias por Fase do Ciclo de Vida</a></li><li style="margin-left:20px;"><a href="#15-1-1-aquisicao-de-clientes">15.1.1. Aquisição de Clientes</a></li><li style="margin-left:20px;"><a href="#15-1-2-onboarding-e-ativacao-inicial">15.1.2. Onboarding e Ativação Inicial</a></li><li style="margin-left:20px;"><a href="#15-1-3-engajamento-recorrente-e-uso-continuo">15.1.3. Engajamento Recorrente e Uso Contínuo</a></li><li style="margin-left:20px;"><a href="#15-1-4-retencao-fidelizacao-e-prevencao-de-churn">15.1.4. Retenção, Fidelização e Prevenção de Churn</a></li><li style="margin-left:20px;"><a href="#15-1-5-cross-sell-up-sell-e-expansao-do-relacionamento">15.1.5. Cross-Sell, Up-Sell e Expansão do Relacionamento</a></li><li style="margin-left:20px;"><a href="#15-2-segmentacao-e-personalizacao-avancada">15.2. Segmentação e Personalização Avançada</a></li><li style="margin-left:20px;"><a href="#15-2-1-personalizacao-com-ia-e-automacao">15.2.1. Personalização com IA e Automação</a></li><li style="margin-left:20px;"><a href="#15-2-2-programas-de-fidelidade-e-recompensas">15.2.2. Programas de Fidelidade e Recompensas</a></li><li style="margin-left:20px;"><a href="#15-2-3-educacao-financeira-e-prevencao-de-inadimplencia">15.2.3. Educação Financeira e Prevenção de Inadimplência</a></li><li style="margin-left:20px;"><a href="#15-3-tendencias-futuras-e-inovacoes-em-crm-para-cartoes">15.3. Tendências Futuras e Inovações em CRM para Cartões</a></li><li><a href="#16-artefatos-operacionais">16. Artefatos Operacionais</a></li><li style="margin-left:20px;"><a href="#16-1-kpis-detalhados">16.1. KPIs Detalhados</a></li><li style="margin-left:20px;"><a href="#16-2-tabela-raci">16.2. Tabela RACI</a></li><li><a href="#1-baixe-o-app-way-controle-seus-gastos-fatura-limite-e-muito-mais-na-palma-da-sua-mao-link-para-download-do-app-way">1. **Baixe o App Way:** Controle seus gastos, fatura, limite e muito mais na palma da sua mão. [Link para Download do App Way]</a></li><li><a href="#2-conheca-o-esfera-acumule-pontos-em-suas-compras-e-troque-por-viagens-produtos-e-experiencias-incriveis-link-para-esfera">2. **Conheça o Esfera:** Acumule pontos em suas compras e troque por viagens, produtos e experiências incríveis. [Link para Esfera]</a></li><li><a href="#3-sua-primeira-compra-use-seu-cartao-em-qualquer-estabelecimento-e-ganhe-beneficio-da-ftc-ex-500-pontos-esfera-bonus">3. **Sua primeira compra:** Use seu cartão em qualquer estabelecimento e ganhe [Benefício da FTC, ex: 500 pontos Esfera bônus]!</a></li><li><a href="#1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex">1. Instalação (se necessário): bash sudo apt-get update sudo apt-get install pandoc texlive-xetex</a></li><li><a href="#2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu">2. Navegue até o diretório do arquivo: bash cd /home/ubuntu/</a></li><li><a href="#3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-arial-v-monofont-courier-new-toc-toc-depth-3-number-sections">3. Execute o comando de conversão: bash pandoc playbook_final.md -o playbook_final.pdf --pdf-engine=xelatex -V mainfont=&quot;Arial&quot; -V monofont=&quot;Courier New&quot; --toc --toc-depth=3 --number-sections</a></li><li><a href="#1-copie-o-conteudo-abra-o-arquivo-playbook-final-md-em-um-editor-de-texto-e-copie-todo-o-conteudo">1. Copie o conteúdo: Abra o arquivo playbook_final.md em um editor de texto e copie todo o conteúdo.</a></li><li><a href="#2-cole-no-google-docs-abra-um-novo-documento-no-google-docs-e-cole-o-conteudo-o-google-docs-geralmente-interpreta-bem-a-formatacao-markdown-basica-negritos-titulos">2. Cole no Google Docs: Abra um novo documento no Google Docs e cole o conteúdo. O Google Docs geralmente interpreta bem a formatação Markdown básica (negritos, títulos).</a></li><li><a href="#3-ajuste-a-formatacao-revise-e-ajuste-manualmente-a-formatacao-fontes-cores-espacamento-para-garantir-que-esteja-profissional-para-tabelas-e-fluxos-mermaid-pode-ser-necessario-copiar-e-colar-como-imagem-ou-usar-complementos">3. Ajuste a formatação: Revise e ajuste manualmente a formatação (fontes, cores, espaçamento) para garantir que esteja profissional. Para tabelas e fluxos Mermaid, pode ser necessário copiar e colar como imagem ou usar complementos.</a></li><li><a href="#4-exporte-para-pdf-va-em-arquivo-fazer-download-documento-pdf-pdf">4. Exporte para PDF: Vá em Arquivo &gt; Fazer download &gt; Documento PDF (.pdf) .</a></li><li><a href="#1-importe-o-markdown-crie-uma-nova-pagina-no-notion-clique-em-importar-e-selecione-markdown-csv-escolha-o-arquivo-playbook-final-md">1. Importe o Markdown: Crie uma nova página no Notion, clique em Importar e selecione Markdown &amp; CSV . Escolha o arquivo playbook_final.md .</a></li><li><a href="#2-ajuste-a-formatacao-o-notion-importara-o-markdown-e-aplicara-sua-propria-formatacao-revise-e-ajuste-cores-fontes-e-blocos-para-garantir-o-visual-desejado-fluxos-mermaid-serao-renderizados-se-o-notion-tiver-suporte-a-blocos-de-codigo-ou-integracoes-para-diagramas">2. Ajuste a formatação: O Notion importará o Markdown e aplicará sua própria formatação. Revise e ajuste cores, fontes e blocos para garantir o visual desejado. Fluxos Mermaid serão renderizados se o Notion tiver suporte a blocos de código ou integrações para diagramas.</a></li><li><a href="#3-exporte-para-pdf-clique-nos-tres-pontos-no-canto-superior-direito-da-pagina-e-selecione-exportar-escolha-pdf-como-formato-e-ajuste-as-opcoes-de-layout-se-necessario">3. Exporte para PDF: Clique nos ... (três pontos) no canto superior direito da página e selecione Exportar . Escolha PDF como formato e ajuste as opções de layout, se necessário.</a></li></ul>
+<ul><li><a href="#1-conceitos-fundamentais-de-crm-bancario-e-cartoes-pf">1. Conceitos Fundamentais de CRM Bancário e Cartões PF</a></li><li style="margin-left:20px;"><a href="#1-1-introducao-ao-crm-no-setor-bancario">1.1. Introdução ao CRM no Setor Bancário</a></li><li style="margin-left:20px;"><a href="#1-2-estrategias-de-crm-para-cartoes-de-pessoa-fisica">1.2. Estratégias de CRM para Cartões de Pessoa Física</a></li><li style="margin-left:20px;"><a href="#1-3-visao-institucional-do-santander">1.3. Visão Institucional do Santander</a></li><li><a href="#2-ambiente-regulatorio-e-compliance">2. Ambiente Regulatório e Compliance</a></li><li style="margin-left:20px;"><a href="#2-1-lei-geral-de-protecao-de-dados-lgpd">2.1. Lei Geral de Proteção de Dados (LGPD)</a></li><li style="margin-left:20px;"><a href="#2-2-regulamentacoes-do-banco-central-bacen">2.2. Regulamentações do Banco Central (Bacen)</a></li><li style="margin-left:20px;"><a href="#2-3-regulamentacoes-da-anatel-e-whatsapp">2.3. Regulamentações da Anatel e WhatsApp</a></li><li style="margin-left:20px;"><a href="#2-4-open-finance">2.4. Open Finance</a></li><li><a href="#3-jornada-do-cliente-e-reguas-de-relacionamento">3. Jornada do Cliente e Réguas de Relacionamento</a></li><li style="margin-left:20px;"><a href="#3-1-onboarding">3.1. Onboarding</a></li><li style="margin-left:20px;"><a href="#3-2-uso-recorrente-e-engajamento">3.2. Uso Recorrente e Engajamento</a></li><li style="margin-left:20px;"><a href="#3-3-fatura-e-pagamento">3.3. Fatura e Pagamento</a></li><li style="margin-left:20px;"><a href="#3-4-risco-e-retencao">3.4. Risco e Retenção</a></li><li style="margin-left:20px;"><a href="#3-5-frequencia-maxima-por-canal">3.5. Frequência Máxima por Canal</a></li><li><a href="#4-metricas-e-kpis-de-crm">4. Métricas e KPIs de CRM</a></li><li style="margin-left:20px;"><a href="#4-1-kpis-classicos-macro">4.1. KPIs Clássicos (Macro)</a></li><li style="margin-left:20px;"><a href="#4-2-kpis-operacionais-micro">4.2. KPIs Operacionais (Micro)</a></li><li><a href="#5-stack-tecnologico-e-governanca-de-crm">5. Stack Tecnológico e Governança de CRM</a></li><li style="margin-left:20px;"><a href="#5-1-integracao-de-sistemas">5.1. Integração de Sistemas</a></li><li style="margin-left:20px;"><a href="#5-2-modelos-de-propensao">5.2. Modelos de Propensão</a></li><li style="margin-left:20px;"><a href="#5-3-experimentacao-e-otimizacao">5.3. Experimentação e Otimização</a></li><li style="margin-left:20px;"><a href="#5-4-governanca-e-comites">5.4. Governança e Comitês</a></li><li><a href="#6-rotina-e-habilidades-do-analista-senior-de-crm">6. Rotina e Habilidades do Analista Sênior de CRM</a></li><li style="margin-left:20px;"><a href="#6-1-atividades-diarias">6.1. Atividades Diárias</a></li><li style="margin-left:20px;"><a href="#6-2-atividades-semanais">6.2. Atividades Semanais</a></li><li style="margin-left:20px;"><a href="#6-3-atividades-mensais">6.3. Atividades Mensais</a></li><li><a href="#7-comunicacao-e-mensagens-compliance-friendly">7. Comunicação e Mensagens (Compliance-Friendly)</a></li><li style="margin-left:20px;"><a href="#7-1-mensagens-de-push">7.1. Mensagens de Push</a></li><li style="margin-left:20px;"><a href="#7-2-mensagens-de-whatsapp-opt-in-e-template-aprovado">7.2. Mensagens de WhatsApp (Opt-in e Template Aprovado)</a></li><li style="margin-left:20px;"><a href="#7-3-mensagens-esfera-incentivo-e-beneficios">7.3. Mensagens Esfera (Incentivo e Benefícios)</a></li><li style="margin-left:20px;"><a href="#7-4-mensagens-de-retencao-upgrade">7.4. Mensagens de Retenção/Upgrade</a></li><li><a href="#8-agenda-de-impacto-primeiros-90-dias">8. Agenda de Impacto: Primeiros 90 Dias</a></li><li style="margin-left:20px;"><a href="#8-1-sprint-ftc-first-transaction-campaign">8.1. Sprint FTC (First Transaction Campaign)</a></li><li style="margin-left:20px;"><a href="#8-2-mega-campanha-esfera">8.2. Mega Campanha Esfera</a></li><li style="margin-left:20px;"><a href="#8-3-serie-educativa-sobre-rotativo-parcelamento">8.3. Série Educativa sobre Rotativo/Parcelamento</a></li><li style="margin-left:20px;"><a href="#8-4-projeto-piloto-de-open-finance-para-pre-aprovados">8.4. Projeto Piloto de Open Finance para Pré-Aprovados</a></li><li><a href="#9-tendencias-e-inovacoes-em-crm-para-cartoes">9. Tendências e Inovações em CRM para Cartões</a></li><li><a href="#10-portfolio-de-cartoes-pf-santander-brasil">10. Portfólio de Cartões PF Santander Brasil</a></li><li style="margin-left:20px;"><a href="#10-1-cartoes-de-entrada-basicos">10.1. Cartões de Entrada/Básicos</a></li><li style="margin-left:20px;"><a href="#10-2-cartoes-intermediarios">10.2. Cartões Intermediários</a></li><li style="margin-left:20px;"><a href="#10-3-cartoes-premium-alta-renda">10.3. Cartões Premium/Alta Renda</a></li><li style="margin-left:20px;"><a href="#10-4-cartoes-co-branded-e-parcerias">10.4. Cartões Co-branded e Parcerias</a></li><li><a href="#11-estrategias-avancadas-de-crm-em-cartoes">11. Estratégias Avançadas de CRM em Cartões</a></li><li style="margin-left:20px;"><a href="#11-1-aquisicao-e-onboarding">11.1. Aquisição e Onboarding</a></li><li style="margin-left:20px;"><a href="#11-2-engajamento-e-uso">11.2. Engajamento e Uso</a></li><li style="margin-left:20px;"><a href="#11-3-retencao-e-fidelizacao">11.3. Retenção e Fidelização</a></li><li style="margin-left:20px;"><a href="#11-4-cross-sell-e-up-sell">11.4. Cross-sell e Up-sell</a></li><li><a href="#12-analise-de-dados-e-metricas-avancadas">12. Análise de Dados e Métricas Avançadas</a></li><li style="margin-left:20px;"><a href="#12-1-metricas-avancadas">12.1. Métricas Avançadas</a></li><li style="margin-left:20px;"><a href="#12-2-tecnicas-de-analise">12.2. Técnicas de Análise</a></li><li style="margin-left:20px;"><a href="#12-3-ferramentas-e-plataformas">12.3. Ferramentas e Plataformas</a></li><li><a href="#13-funcionalidades-e-jornadas-complementares">13. Funcionalidades e Jornadas Complementares</a></li><li style="margin-left:20px;"><a href="#13-1-funcionalidades-do-cartao-e-app-way">13.1. Funcionalidades do Cartão e App Way</a></li><li style="margin-left:20px;"><a href="#13-2-jornadas-especificas">13.2. Jornadas Específicas</a></li><li style="margin-left:20px;"><a href="#13-3-integracao-com-outros-produtos-santander">13.3. Integração com Outros Produtos Santander</a></li><li><a href="#14-otimizacao-de-reguas-e-workflows">14. Otimização de Réguas e Workflows</a></li><li style="margin-left:20px;"><a href="#14-1-otimizacao-das-reguas-existentes">14.1. Otimização das Réguas Existentes</a></li><li style="margin-left:20px;"><a href="#14-2-proposicao-de-novos-workflows">14.2. Proposição de Novos Workflows</a></li><li style="margin-left:20px;"><a href="#14-3-automacao-e-inteligencia-artificial">14.3. Automação e Inteligência Artificial</a></li><li><a href="#15-melhores-praticas-globais-e-benchmarks">15. Melhores Práticas Globais e Benchmarks</a></li><li style="margin-left:20px;"><a href="#15-1-estrategias-por-fase-do-ciclo-de-vida">15.1. Estratégias por Fase do Ciclo de Vida</a></li><li style="margin-left:20px;"><a href="#15-1-1-aquisicao-de-clientes">15.1.1. Aquisição de Clientes</a></li><li style="margin-left:20px;"><a href="#15-1-2-onboarding-e-ativacao-inicial">15.1.2. Onboarding e Ativação Inicial</a></li><li style="margin-left:20px;"><a href="#15-1-3-engajamento-recorrente-e-uso-continuo">15.1.3. Engajamento Recorrente e Uso Contínuo</a></li><li style="margin-left:20px;"><a href="#15-1-4-retencao-fidelizacao-e-prevencao-de-churn">15.1.4. Retenção, Fidelização e Prevenção de Churn</a></li><li style="margin-left:20px;"><a href="#15-1-5-cross-sell-up-sell-e-expansao-do-relacionamento">15.1.5. Cross-Sell, Up-Sell e Expansão do Relacionamento</a></li><li style="margin-left:20px;"><a href="#15-2-segmentacao-e-personalizacao-avancada">15.2. Segmentação e Personalização Avançada</a></li><li style="margin-left:20px;"><a href="#15-2-1-personalizacao-com-ia-e-automacao">15.2.1. Personalização com IA e Automação</a></li><li style="margin-left:20px;"><a href="#15-2-2-programas-de-fidelidade-e-recompensas">15.2.2. Programas de Fidelidade e Recompensas</a></li><li style="margin-left:20px;"><a href="#15-2-3-educacao-financeira-e-prevencao-de-inadimplencia">15.2.3. Educação Financeira e Prevenção de Inadimplência</a></li><li style="margin-left:20px;"><a href="#15-3-tendencias-futuras-e-inovacoes-em-crm-para-cartoes">15.3. Tendências Futuras e Inovações em CRM para Cartões</a></li><li><a href="#16-artefatos-operacionais">16. Artefatos Operacionais</a></li><li style="margin-left:20px;"><a href="#16-1-kpis-detalhados">16.1. KPIs Detalhados</a></li><li style="margin-left:20px;"><a href="#16-2-tabela-raci">16.2. Tabela RACI</a></li><li><a href="#1-baixe-o-app-way-controle-seus-gastos-fatura-limite-e-muito-mais-na-palma-da-sua-mao-link-para-download-do-app-way">1. **Baixe o App Way:** Controle seus gastos, fatura, limite e muito mais na palma da sua mão. [Link para Download do App Way]</a></li><li><a href="#2-conheca-o-esfera-acumule-pontos-em-suas-compras-e-troque-por-viagens-produtos-e-experiencias-incriveis-link-para-esfera">2. **Conheça o Esfera:** Acumule pontos em suas compras e troque por viagens, produtos e experiências incríveis. [Link para Esfera]</a></li><li><a href="#3-sua-primeira-compra-use-seu-cartao-em-qualquer-estabelecimento-e-ganhe-beneficio-da-ftc-ex-500-pontos-esfera-bonus">3. **Sua primeira compra:** Use seu cartão em qualquer estabelecimento e ganhe [Benefício da FTC, ex: 500 pontos Esfera bônus]!</a></li><li><a href="#1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex">1. Instalação (se necessário): bash sudo apt-get update sudo apt-get install pandoc texlive-xetex</a></li><li><a href="#2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu">2. Navegue até o diretório do arquivo: bash cd /home/ubuntu/</a></li><li><a href="#3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-arial-v-monofont-courier-new-toc-toc-depth-3-number-sections">3. Execute o comando de conversão: bash pandoc playbook_final.md -o playbook_final.pdf --pdf-engine=xelatex -V mainfont="Arial" -V monofont="Courier New" --toc --toc-depth=3 --number-sections</a></li><li><a href="#1-copie-o-conteudo-abra-o-arquivo-playbook-final-md-em-um-editor-de-texto-e-copie-todo-o-conteudo">1. Copie o conteúdo: Abra o arquivo playbook_final.md em um editor de texto e copie todo o conteúdo.</a></li><li><a href="#2-cole-no-google-docs-abra-um-novo-documento-no-google-docs-e-cole-o-conteudo-o-google-docs-geralmente-interpreta-bem-a-formatacao-markdown-basica-negritos-titulos">2. Cole no Google Docs: Abra um novo documento no Google Docs e cole o conteúdo. O Google Docs geralmente interpreta bem a formatação Markdown básica (negritos, títulos).</a></li><li><a href="#3-ajuste-a-formatacao-revise-e-ajuste-manualmente-a-formatacao-fontes-cores-espacamento-para-garantir-que-esteja-profissional-para-tabelas-e-fluxos-mermaid-pode-ser-necessario-copiar-e-colar-como-imagem-ou-usar-complementos">3. Ajuste a formatação: Revise e ajuste manualmente a formatação (fontes, cores, espaçamento) para garantir que esteja profissional. Para tabelas e fluxos Mermaid, pode ser necessário copiar e colar como imagem ou usar complementos.</a></li><li><a href="#4-exporte-para-pdf-va-em-arquivo-fazer-download-documento-pdf-pdf">4. Exporte para PDF: Vá em Arquivo &gt; Fazer download &gt; Documento PDF (.pdf) .</a></li><li><a href="#1-importe-o-markdown-crie-uma-nova-pagina-no-notion-clique-em-importar-e-selecione-markdown-csv-escolha-o-arquivo-playbook-final-md">1. Importe o Markdown: Crie uma nova página no Notion, clique em Importar e selecione Markdown &amp; CSV . Escolha o arquivo playbook_final.md .</a></li><li><a href="#2-ajuste-a-formatacao-o-notion-importara-o-markdown-e-aplicara-sua-propria-formatacao-revise-e-ajuste-cores-fontes-e-blocos-para-garantir-o-visual-desejado-fluxos-mermaid-serao-renderizados-se-o-notion-tiver-suporte-a-blocos-de-codigo-ou-integracoes-para-diagramas">2. Ajuste a formatação: O Notion importará o Markdown e aplicará sua própria formatação. Revise e ajuste cores, fontes e blocos para garantir o visual desejado. Fluxos Mermaid serão renderizados se o Notion tiver suporte a blocos de código ou integrações para diagramas.</a></li><li><a href="#3-exporte-para-pdf-clique-nos-tres-pontos-no-canto-superior-direito-da-pagina-e-selecione-exportar-escolha-pdf-como-formato-e-ajuste-as-opcoes-de-layout-se-necessario">3. Exporte para PDF: Clique nos ... (três pontos) no canto superior direito da página e selecione Exportar . Escolha PDF como formato e ajuste as opções de layout, se necessário.</a></li><li><a href="#plano360">Plano 360° – Plano de Estudo Completo</a></li></ul>
 </nav>
-<div class="content">
+    <div class="content">
 <p>﻿Playbook CRM para Cartões de Pessoa Física no Santander</p>
 <h2 id="1-conceitos-fundamentais-de-crm-bancario-e-cartoes-pf">1. Conceitos Fundamentais de CRM Bancário e Cartões PF</h2>
 <h3 id="1-1-introducao-ao-crm-no-setor-bancario">1.1. Introdução ao CRM no Setor Bancário</h3>
@@ -43,7 +189,7 @@ p { margin-top:1rem; line-height:1.6; }
 <p>Análise Preditiva: Utilizar dados e algoritmos para prever o comportamento futuro do cliente.</p>
 <p>Atendimento ao Cliente Proativo: Antecipar as necessidades dos clientes e resolver problemas antes mesmo que eles surjam.</p>
 <h3 id="1-3-visao-institucional-do-santander">1.3. Visão Institucional do Santander</h3>
-<p>O Santander adota uma estratégia centrada no cliente, buscando ser a melhor plataforma de serviços financeiros abertos. A abordagem do banco é baseada em um &quot;banco digital com agências&quot;, visando oferecer a melhor experiência em todos os canais. A iniciativa &quot;One Transformation&quot; busca criar um modelo operacional e de negócios comum para o varejo e o banco comercial, impulsionando a produtividade, reduzindo custos de serviço e melhorando a experiência do cliente. Isso permite que as equipes das agências dediquem mais tempo aos clientes e ofereçam um serviço personalizado.</p>
+<p>O Santander adota uma estratégia centrada no cliente, buscando ser a melhor plataforma de serviços financeiros abertos. A abordagem do banco é baseada em um "banco digital com agências", visando oferecer a melhor experiência em todos os canais. A iniciativa "One Transformation" busca criar um modelo operacional e de negócios comum para o varejo e o banco comercial, impulsionando a produtividade, reduzindo custos de serviço e melhorando a experiência do cliente. Isso permite que as equipes das agências dediquem mais tempo aos clientes e ofereçam um serviço personalizado.</p>
 <p>O Santander utiliza a tecnologia e a análise de dados para impulsionar o crescimento e a rentabilidade. A personalização e a automação são pilares importantes, com foco em entender as necessidades dos clientes e oferecer soluções sob medida. A Salesforce é mencionada em alguns contextos como parceira para personalização e conversas com clientes, indicando o uso de plataformas robustas para gerenciar o relacionamento. Além disso, o Santander tem uma parceria estratégica com a Microsoft, o que sugere o uso de tecnologias Microsoft, como o Microsoft Dynamics 365, para suas iniciativas de transformação digital e CRM. Essas ferramentas permitem ao banco centralizar dados, automatizar processos e oferecer uma visão 360 graus do cliente.</p>
 <p>Para cartões de pessoa física, o Santander provavelmente emprega estratégias de segmentação avançada, personalização de ofertas, programas de fidelidade e recompensas, e comunicação multicanal para engajar os clientes e promover o uso dos cartões. A análise de dados é fundamental para identificar padrões de gastos, prever necessidades e otimizar as campanhas de marketing e vendas.</p>
 <p>O banco também investe em educação financeira e em plataformas que visam capacitar seus clientes, o que pode ser visto como uma estratégia de CRM de longo prazo,</p>
@@ -99,7 +245,7 @@ p { margin-top:1rem; line-height:1.6; }
 <p>Geral: Recomenda-se um limite de 2 a 3 contatos por semana por cliente, considerando todos os canais. [Sem fonte] [2025-08-23]</p>
 <p>WhatsApp: Regras mais rígidas se aplicam ao WhatsApp, com a necessidade de templates aprovados e um controle ainda maior da frequência para não gerar bloqueios ou reclamações. A comunicação deve ser relevante e de alto valor para o cliente. [Sem fonte] [2025-08-23]</p>
 <h2 id="4-metricas-e-kpis-de-crm">4. Métricas e KPIs de CRM</h2>
-<p>Para um analista sênior de CRM, a análise de métricas e KPIs é o cerne da tomada de decisão. Além dos KPIs clássicos de CRM, é crucial monitorar indicadores operacionais que refletem o &quot;chão de fábrica&quot; e a eficácia das ações em tempo real. [Sem fonte] [2025- 08-23]</p>
+<p>Para um analista sênior de CRM, a análise de métricas e KPIs é o cerne da tomada de decisão. Além dos KPIs clássicos de CRM, é crucial monitorar indicadores operacionais que refletem o "chão de fábrica" e a eficácia das ações em tempo real. [Sem fonte] [2025- 08-23]</p>
 <h3 id="4-1-kpis-classicos-macro">4.1. KPIs Clássicos (Macro)</h3>
 <p>Esses indicadores fornecem uma visão estratégica e de alto nível sobre o desempenho do CRM: [Sem fonte] [2025-08-23]</p>
 <p>Taxa de Aquisição de Clientes: Número de novos cartões emitidos em um determinado período. [Sem fonte] [2025-08-23]</p>
@@ -166,26 +312,26 @@ p { margin-top:1rem; line-height:1.6; }
 <p>A comunicação eficaz e em conformidade com as regulamentações é um diferencial para o analista sênior de CRM. Abaixo, exemplos de mensagens que podem ser utilizadas em diferentes fases da régua de relacionamento, com foco em clareza e compliance: [Sem fonte] [2025-08-23]</p>
 <h3 id="7-1-mensagens-de-push">7.1. Mensagens de Push</h3>
 <p>Desbloqueio e Ativação:</p>
-<p>&quot;�� Seu cartão Santander chegou! Desbloqueie agora mesmo no App Way em 1 minuto e comece a aproveitar seus benefícios. Toque aqui!&quot; [Sem fonte] [2025- 08-23]</p>
-<p>&quot;Primeira compra com bônus! Use seu novo cartão Santander hoje e ganhe X pontos Esfera. Válido até [Data].&quot; [Sem fonte] [2025-08-23]</p>
+<p>"�� Seu cartão Santander chegou! Desbloqueie agora mesmo no App Way em 1 minuto e comece a aproveitar seus benefícios. Toque aqui!" [Sem fonte] [2025- 08-23]</p>
+<p>"Primeira compra com bônus! Use seu novo cartão Santander hoje e ganhe X pontos Esfera. Válido até [Data]." [Sem fonte] [2025-08-23]</p>
 <h3 id="7-2-mensagens-de-whatsapp-opt-in-e-template-aprovado">7.2. Mensagens de WhatsApp (Opt-in e Template Aprovado)</h3>
 <p>Para mensagens via WhatsApp, é crucial que o cliente tenha concedido opt-in prévio e que o conteúdo siga templates aprovados para evitar bloqueios. [Sem fonte] [2025-08-23]</p>
 <p>Fatura e Pagamento:</p>
-<p>&quot;Olá [Nome do Cliente], sua fatura Santander fechou em R$ X,XX com vencimento em [Data]. Pague agora mesmo pelo App Way e evite juros. Toque aqui: [Link para App Way]&quot; [Sem fonte] [2025-08-23]</p>
-<p>&quot;Atenção, [Nome do Cliente]! Sua fatura Santander vence em [Data]. Para sua comodidade, pague pelo App Way ou gere o código de barras aqui: [Link para código de barras]&quot; [Sem fonte] [2025-08-23]</p>
+<p>"Olá [Nome do Cliente], sua fatura Santander fechou em R$ X,XX com vencimento em [Data]. Pague agora mesmo pelo App Way e evite juros. Toque aqui: [Link para App Way]" [Sem fonte] [2025-08-23]</p>
+<p>"Atenção, [Nome do Cliente]! Sua fatura Santander vence em [Data]. Para sua comodidade, pague pelo App Way ou gere o código de barras aqui: [Link para código de barras]" [Sem fonte] [2025-08-23]</p>
 <p>Educação Financeira (Exemplo para Rotativo/Parcelamento):</p>
-<p>&quot;[Nome do Cliente], entenda como funciona o crédito rotativo do seu cartão Santander e as opções de parcelamento para organizar suas finanças. Saiba mais: [Link para conteúdo educativo]&quot; [Sem fonte] [2025-08-23]</p>
+<p>"[Nome do Cliente], entenda como funciona o crédito rotativo do seu cartão Santander e as opções de parcelamento para organizar suas finanças. Saiba mais: [Link para conteúdo educativo]" [Sem fonte] [2025-08-23]</p>
 <h3 id="7-3-mensagens-esfera-incentivo-e-beneficios">7.3. Mensagens Esfera (Incentivo e Benefícios)</h3>
 <p>Incentivo a Pontos/Cashback:</p>
-<p>&quot;Ganhe 3x pontos extras! Use seu cartão Santander em compras nos parceiros Esfera [Nome do Parceiro] até domingo e acumule mais pontos. Confira: [Link para Esfera]&quot; [Sem fonte] [2025-08-23]</p>
-<p>&quot;Cashback para você! Receba X% de volta em suas compras no [Nome do Parceiro] com seu cartão Santander. Aproveite: [Link para Esfera]&quot; [Sem fonte] [2025-08-23]</p>
+<p>"Ganhe 3x pontos extras! Use seu cartão Santander em compras nos parceiros Esfera [Nome do Parceiro] até domingo e acumule mais pontos. Confira: [Link para Esfera]" [Sem fonte] [2025-08-23]</p>
+<p>"Cashback para você! Receba X% de volta em suas compras no [Nome do Parceiro] com seu cartão Santander. Aproveite: [Link para Esfera]" [Sem fonte] [2025-08-23]</p>
 <p>Resgate de Pontos:</p>
-<p>&quot;[Nome do Cliente], você já tem X pontos Esfera! Troque por viagens, produtos ou serviços incríveis. Resgate agora: [Link para Esfera]&quot; [Sem fonte] [2025-08- 23]</p>
+<p>"[Nome do Cliente], você já tem X pontos Esfera! Troque por viagens, produtos ou serviços incríveis. Resgate agora: [Link para Esfera]" [Sem fonte] [2025-08- 23]</p>
 <h3 id="7-4-mensagens-de-retencao-upgrade">7.4. Mensagens de Retenção/Upgrade</h3>
 <p>Oferta de Upgrade:</p>
-<p>&quot;[Nome do Cliente], seu perfil de gastos te qualifica para um upgrade! Conheça os benefícios exclusivos do cartão Santander [Nome do Cartão] e solicite já: [Link para Upgrade]&quot; [Sem fonte] [2025-08-23]</p>
+<p>"[Nome do Cliente], seu perfil de gastos te qualifica para um upgrade! Conheça os benefícios exclusivos do cartão Santander [Nome do Cartão] e solicite já: [Link para Upgrade]" [Sem fonte] [2025-08-23]</p>
 <p>Oferta de Retenção (Exemplo para Churn):</p>
-<p>&quot;Sentimos sua falta, [Nome do Cliente]! Temos uma oferta especial para você continuar aproveitando seu cartão Santander: [Detalhes da Oferta]. Fale conosco: [Telefone/Chat]&quot; [Sem fonte] [2025-08-23]</p>
+<p>"Sentimos sua falta, [Nome do Cliente]! Temos uma oferta especial para você continuar aproveitando seu cartão Santander: [Detalhes da Oferta]. Fale conosco: [Telefone/Chat]" [Sem fonte] [2025-08-23]</p>
 <p>É fundamental que todas as mensagens sejam claras, objetivas, personalizadas e, acima de tudo, em total conformidade com as regulamentações vigentes, garantindo a transparência e a confiança do cliente. [Sem fonte] [2025-08-23]</p>
 <h2 id="8-agenda-de-impacto-primeiros-90-dias">8. Agenda de Impacto: Primeiros 90 Dias</h2>
 <p>Para um analista sênior de CRM, a capacidade de propor e executar iniciativas com impacto rápido é crucial. Uma agenda de 90 dias focada em resultados pode incluir: [Sem fonte] [2025-08-23]</p>
@@ -761,10 +907,10 @@ p { margin-top:1rem; line-height:1.6; }
 <p>O Pandoc é uma ferramenta de linha de comando versátil para conversão de documentos. Ele permite um controle preciso sobre a formatação do PDF.</p>
 <h2 id="1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex">1. Instalação (se necessário): bash sudo apt-get update sudo apt-get install pandoc texlive-xetex</h2>
 <h2 id="2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu">2. Navegue até o diretório do arquivo: bash cd /home/ubuntu/</h2>
-<h2 id="3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-arial-v-monofont-courier-new-toc-toc-depth-3-number-sections">3. Execute o comando de conversão: bash pandoc playbook_final.md -o playbook_final.pdf --pdf-engine=xelatex -V mainfont=&quot;Arial&quot; -V monofont=&quot;Courier New&quot; --toc --toc-depth=3 --number-sections</h2>
+<h2 id="3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-arial-v-monofont-courier-new-toc-toc-depth-3-number-sections">3. Execute o comando de conversão: bash pandoc playbook_final.md -o playbook_final.pdf --pdf-engine=xelatex -V mainfont="Arial" -V monofont="Courier New" --toc --toc-depth=3 --number-sections</h2>
 <p>--pdf-engine=xelatex : Garante melhor suporte a fontes e caracteres especiais.</p>
 <p>`-V mainfont=</p>
-<p>&quot;Arial&quot; -V monofont=&quot;Courier New&quot; : Define as fontes principal e monoespaçada. * --toc --toc-depth=3 --number-sections`: Inclui sumário com 3 níveis e numeração de seções.</p>
+<p>"Arial" -V monofont="Courier New" : Define as fontes principal e monoespaçada. * --toc --toc-depth=3 --number-sections`: Inclui sumário com 3 níveis e numeração de seções.</p>
 <p>Opção 2: Usando Google Docs</p>
 <h2 id="1-copie-o-conteudo-abra-o-arquivo-playbook-final-md-em-um-editor-de-texto-e-copie-todo-o-conteudo">1. Copie o conteúdo: Abra o arquivo playbook_final.md em um editor de texto e copie todo o conteúdo.</h2>
 <h2 id="2-cole-no-google-docs-abra-um-novo-documento-no-google-docs-e-cole-o-conteudo-o-google-docs-geralmente-interpreta-bem-a-formatacao-markdown-basica-negritos-titulos">2. Cole no Google Docs: Abra um novo documento no Google Docs e cole o conteúdo. O Google Docs geralmente interpreta bem a formatação Markdown básica (negritos, títulos).</h2>
@@ -782,7 +928,18 @@ p { margin-top:1rem; line-height:1.6; }
 <p>Consistência: Termos, SLAs e nomenclaturas foram padronizados ao longo do documento. A estrutura numerada (1, 1.1, 1.1.1) garante uma organização lógica e sem redundâncias.</p>
 <p>Exportabilidade: O playbook foi entregue em formato Markdown, com um guia detalhado para exportação para PDF usando ferramentas como Pandoc, Google Docs e Notion, garantindo que a formatação seja mantida e o documento possa ser facilmente compartilhado e utilizado.</p>
 <p>Ação: O conteúdo é prático e acionável, com exemplos de réguas, KPIs detalhados com fórmulas, uma tabela RACI para definição de responsabilidades e fluxos de processo em Mermaid, fornecendo ferramentas concretas para o dia a dia do analista.</p>
-</div>
-</div>
+<section id="plano360"><h2>Plano 360° – CRM em Cartões de Crédito</h2><iframe src="plano360.html" style="width:100%; height:1400px; border:none;"></iframe></section></div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Feather icons replace
+    window.addEventListener('load', () => {
+      if (window.feather) {
+        window.feather.replace();
+      }
+    });
+  </script>
 </body>
 </html>
