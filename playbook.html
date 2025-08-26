@@ -70,6 +70,29 @@
       color: var(--primary-blue) !important;
     }
 
+    /* Theme toggle button */
+    .theme-toggle {
+      background: none;
+      border: 2px solid var(--primary-blue);
+      border-radius: 50px;
+      padding: 6px 14px;
+      color: var(--primary-blue);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .theme-toggle:hover {
+      background: var(--primary-blue);
+      color: white;
+    }
+    body.dark .theme-toggle {
+      border-color: var(--secondary-green);
+      color: var(--secondary-green);
+    }
+    body.dark .theme-toggle:hover {
+      background: var(--secondary-green);
+      color: #1a1a1a;
+    }
+
     /* Container */
     .container-main {
       display: flex;
@@ -79,7 +102,7 @@
 
     /* Sidebar TOC */
     .toc {
-      width: 280px;
+      width: 320px;
       background: white;
       border-right: 1px solid rgba(0, 68, 129, 0.1);
       padding: 1.5rem;
@@ -165,6 +188,35 @@
     .content ul li {
       margin-bottom: 0.4rem;
     }
+
+    /* Dark theme styles */
+    body.dark {
+      background: #0e1a2b;
+      color: #e4e8ef;
+    }
+    body.dark .modern-header {
+      background: rgba(14, 26, 43, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    body.dark .toc {
+      background: #122a45;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    body.dark .toc li a {
+      color: #aecbfa;
+    }
+    body.dark .toc li a:hover {
+      color: var(--primary-red);
+    }
+    body.dark .content {
+      background: #0e1a2b;
+    }
+    body.dark .content h2,
+    body.dark .content h3,
+    body.dark .content h4,
+    body.dark .content p strong {
+      color: #aecbfa;
+    }
     /* Scrollbar styling */
     .toc::-webkit-scrollbar, .content::-webkit-scrollbar {
       width: 6px;
@@ -177,9 +229,23 @@
   <header class="modern-header">
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid px-4">
-        <a class="navbar-brand" href="index.html">Playbook CRM 360°</a>
-        <div class="ms-auto d-flex align-items-center">
-          <a class="nav-link" href="index.html">Início</a></div></div></nav></header>
+        <a class="navbar-brand" href="index.html"><i data-feather="credit-card"></i> Playbook CRM 360°</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+            <li class="nav-item"><a class="nav-link active" href="playbook.html">Playbook</a></li>
+            <li class="nav-item"><a class="nav-link" href="recursos.html">Recursos</a></li>
+          </ul>
+          <div class="d-flex align-items-center gap-3">
+            <button id="themeToggle" class="theme-toggle"><i data-feather="moon"></i></button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
   <div class="container-main">
     <nav class="toc">
 <h2>Índice</h2>
@@ -827,27 +893,6 @@
 <p>O Pandoc é uma ferramenta de linha de comando versátil para conversão de documentos. Ele permite um controle preciso sobre a formatação do PDF.</p>
 <h2 id="1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex">1. Instalação (se necessário): bash sudo apt-get update sudo apt-get install pandoc texlive-xetex</h2>
 <h2 id="2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu">2. Navegue até o diretório do arquivo: bash cd /home/ubuntu/</h2>
-<h2 id="3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-arial-v-monofont-courier-new-toc-toc-depth-3-number-sections">3. Execute o comando de conversão: bash pandoc playbook_final.md -o playbook_final.pdf --pdf-engine=xelatex -V mainfont="Arial" -V monofont="Courier New" --toc --toc-depth=3 --number-sections</h2>
-<p><strong>--pdf-engine=xelatex </strong>: Garante melhor suporte a fontes e caracteres especiais.
-<p>`-V mainfont=</p>
-<p><strong>"Arial" -V monofont="Courier New" </strong>: Define as fontes principal e monoespaçada. * --toc --toc-depth=3 --number-sections`: Inclui sumário com 3 níveis e numeração de seções.
-<p><strong>Opção 2</strong>: Usando Google Docs
-<h2 id="1-copie-o-conteudo-abra-o-arquivo-playbook-final-md-em-um-editor-de-texto-e-copie-todo-o-conteudo">1. Copie o conteúdo: Abra o arquivo playbook_final.md em um editor de texto e copie todo o conteúdo.</h2>
-<h2 id="2-cole-no-google-docs-abra-um-novo-documento-no-google-docs-e-cole-o-conteudo-o-google-docs-geralmente-interpreta-bem-a-formatacao-markdown-basica-negritos-titulos">2. Cole no Google Docs: Abra um novo documento no Google Docs e cole o conteúdo. O Google Docs geralmente interpreta bem a formatação Markdown básica (negritos, títulos).</h2>
-<h2 id="3-ajuste-a-formatacao-revise-e-ajuste-manualmente-a-formatacao-fontes-cores-espacamento-para-garantir-que-esteja-profissional-para-tabelas-e-fluxos-mermaid-pode-ser-necessario-copiar-e-colar-como-imagem-ou-usar-complementos">3. Ajuste a formatação: Revise e ajuste manualmente a formatação (fontes, cores, espaçamento) para garantir que esteja profissional. Para tabelas e fluxos Mermaid, pode ser necessário copiar e colar como imagem ou usar complementos.</h2>
-<h2 id="4-exporte-para-pdf-va-em-arquivo-fazer-download-documento-pdf-pdf">4. Exporte para PDF: Vá em Arquivo &gt; Fazer download &gt; Documento PDF (.pdf) .</h2>
-<p><strong>Opção 3</strong>: Usando Notion
-<h2 id="1-importe-o-markdown-crie-uma-nova-pagina-no-notion-clique-em-importar-e-selecione-markdown-csv-escolha-o-arquivo-playbook-final-md">1. Importe o Markdown: Crie uma nova página no Notion, clique em Importar e selecione Markdown &amp; CSV . Escolha o arquivo playbook_final.md .</h2>
-<h2 id="2-ajuste-a-formatacao-o-notion-importara-o-markdown-e-aplicara-sua-propria-formatacao-revise-e-ajuste-cores-fontes-e-blocos-para-garantir-o-visual-desejado-fluxos-mermaid-serao-renderizados-se-o-notion-tiver-suporte-a-blocos-de-codigo-ou-integracoes-para-diagramas">2. Ajuste a formatação: O Notion importará o Markdown e aplicará sua própria formatação. Revise e ajuste cores, fontes e blocos para garantir o visual desejado. Fluxos Mermaid serão renderizados se o Notion tiver suporte a blocos de código ou integrações para diagramas.</h2>
-<h2 id="3-exporte-para-pdf-clique-nos-tres-pontos-no-canto-superior-direito-da-pagina-e-selecione-exportar-escolha-pdf-como-formato-e-ajuste-as-opcoes-de-layout-se-necessario">3. Exporte para PDF: Clique nos ... (três pontos) no canto superior direito da página e selecione Exportar . Escolha PDF como formato e ajuste as opções de layout, se necessário.</h2>
-<p>Autoavaliação</p>
-<p>Este playbook foi desenvolvido seguindo rigorosamente as diretrizes fornecidas, com o objetivo de ser um documento completo, claro e acionável para um analista sênior de CRM no Santander.</p>
-<p><strong>Cobertura</strong>: O playbook abrange todos os insumos fornecidos, incluindo o playbook atual e os novos dados a integrar. A estrutura foi expandida para acomodar as melhores práticas globais, segmentação avançada e tendências futuras, garantindo uma visão 360 graus do tema.
-<p><strong>Rastreabilidade</strong>: Todos os fatos e informações são citados com fonte e data, ou marcados como  quando a origem não foi explicitamente fornecida. As referências são listadas ao final do documento.
-<p><strong>Clareza</strong>: O tom é direto e as frases são curtas, evitando jargões desnecessários. A linguagem é acessível ao público-alvo, facilitando a compreensão de conceitos complexos.
-<p><strong>Consistência</strong>: Termos, SLAs e nomenclaturas foram padronizados ao longo do documento. A estrutura numerada (1, 1.1, 1.1.1) garante uma organização lógica e sem redundâncias.
-<p><strong>Exportabilidade</strong>: O playbook foi entregue em formato Markdown, com um guia detalhado para exportação para PDF usando ferramentas como Pandoc, Google Docs e Notion, garantindo que a formatação seja mantida e o documento possa ser facilmente compartilhado e utilizado.
-<p><strong>Ação</strong>: O conteúdo é prático e acionável, com exemplos de réguas, KPIs detalhados com fórmulas, uma tabela RACI para definição de responsabilidades e fluxos de processo em Mermaid, fornecendo ferramentas concretas para o dia a dia do analista.
 <section id="plano360"><h2>Plano 360° – CRM em Cartões de Crédito</h2><iframe src="plano360.html" style="width:100%; height:1400px; border:none;"></iframe></section></div></div>
 
   <!-- JS -->
@@ -876,4 +921,33 @@
           items[i].style.display = txt.toLowerCase().includes(filter) ? '' : 'none';
         }
       }
-    }</script></body></html>
+    }
+    // Theme toggle handler for unified dark/light mode
+    document.addEventListener('DOMContentLoaded', function() {
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          document.body.classList.toggle('dark');
+          const iconEl = themeToggle.querySelector('i');
+          if (iconEl) {
+            const current = iconEl.getAttribute('data-feather');
+            iconEl.setAttribute('data-feather', current === 'moon' ? 'sun' : 'moon');
+          }
+          if (window.feather) window.feather.replace();
+        });
+      }
+      // Prepend icons to TOC items
+      const tocLinks = document.querySelectorAll('.toc ul li a');
+      tocLinks.forEach(link => {
+        if (!link.querySelector('i')) {
+          const ic = document.createElement('i');
+          ic.setAttribute('data-feather', 'file-text');
+          ic.classList.add('me-1');
+          link.prepend(ic);
+        }
+      });
+      if (window.feather) window.feather.replace();
+    });
+    </script>
+  </body>
+</html>
