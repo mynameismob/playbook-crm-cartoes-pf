@@ -5,100 +5,220 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recursos – Playbook CRM 360°</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
         :root {
-            --primary-red: #e30b5d;
-            --primary-blue: #2a2a72;
-            --secondary-green: #00b894;
-            --gradient-primary: linear-gradient(90deg, #2a2a72 0%, #009ffd 100%);
-            --gradient-secondary: linear-gradient(90deg, #e30b5d 0%, #ff8a00 100%);
-            --gradient-accent: linear-gradient(90deg, #00b894 0%, #00cec9 100%);
-            --bg-light: #f8f9fa;
-            --bg-dark: #0e1a2b;
-            --text-dark: #1f1f1f;
-            --text-light: #f3f4f6;
+            /* Paleta corporativa Santander */
+            --primary-red: #EC0000;
+            --primary-blue: #004481;
+            --secondary-green: #00D4AA;
+            --secondary-orange: #FF6B35;
+            --neutral-light: #F8F9FA;
+            --neutral-dark: #2C3E50;
+            --gradient-primary: linear-gradient(135deg, #004481 0%, #0066CC 100%);
+            --gradient-secondary: linear-gradient(135deg, #00D4AA 0%, #004481 100%);
+            --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #EC0000 100%);
+            --shadow-soft: 0 10px 40px rgba(0, 68, 129, 0.1);
+            --shadow-medium: 0 20px 60px rgba(0, 68, 129, 0.15);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--neutral-dark);
+            background: var(--neutral-light);
         }
         body.dark {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+            background: #1a1a1a;
+            color: #f1f1f1;
         }
+
+        /* Header */
         .modern-header {
-            position: sticky;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 68, 129, 0.1);
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
         body.dark .modern-header {
-            background-color: rgba(14, 26, 43, 0.8);
+            background: rgba(0,0,0,0.8);
+            border-bottom-color: rgba(255,255,255,0.1);
         }
         .navbar-brand {
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+        .nav-link {
+            font-weight: 500;
+            color: var(--neutral-dark) !important;
+            transition: var(--transition);
+            position: relative;
+        }
+        .nav-link:hover {
+            color: var(--primary-blue) !important;
+            transform: translateY(-2px);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Theme toggle button */
+        .theme-toggle {
+            background: none;
+            border: 2px solid var(--primary-blue);
+            border-radius: 50px;
+            padding: 6px 14px;
+            color: var(--primary-blue);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .theme-toggle:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        body.dark .theme-toggle {
+            border-color: var(--secondary-green);
+            color: var(--secondary-green);
+        }
+        body.dark .theme-toggle:hover {
+            background: var(--secondary-green);
+            color: #1a1a1a;
+        }
+
+        /* Section titles */
         .section-title {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .resource-card {
-            background-color: rgba(255,255,255,0.8);
-            border: 1px solid #ddd;
-            border-radius: 0.75rem;
-            padding: 1.5rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Card styling */
+        .resource-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 68, 129, 0.05);
         }
         body.dark .resource-card {
-            background-color: rgba(20,33,54,0.8);
-            border-color: #2a2a72;
+            background: #262626;
+            border-color: rgba(255,255,255,0.05);
+            color: #f1f1f1;
         }
+        .resource-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        body.dark .resource-card h3 {
+            color: var(--secondary-green);
+        }
+        .resource-card p {
+            font-size: 1rem;
+            color: var(--neutral-dark);
+            opacity: 0.85;
+        }
+        body.dark .resource-card p {
+            color: #e0e0e0;
+        }
+
+        /* CTA button */
         .cta-button {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            padding: 0.6rem 1.2rem;
-            border-radius: 0.5rem;
-            background: var(--gradient-secondary);
+            gap: 0.5rem;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            background: var(--gradient-primary);
             color: white;
             text-decoration: none;
             font-weight: 600;
+            border: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-soft);
         }
-        .cta-button i {
-            width: 1.1rem;
-            height: 1.1rem;
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            color: white;
         }
         body.dark .cta-button {
-            background: var(--gradient-primary);
+            background: var(--gradient-secondary);
         }
+
         /* Quiz styles */
-        .quiz-question { margin-bottom: 1rem; }
-        .quiz-options label { display: block; margin-bottom: 0.5rem; cursor: pointer; }
-        .result { font-weight: 600; margin-top: 1rem; }
+        .quiz-question {
+            margin-bottom: 1rem;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        .result {
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        /* Removed old style definitions; replaced with unified design system */
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg modern-header px-3">
-        <a class="navbar-brand" href="index.html">Playbook CRM 360°</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-                <li class="nav-item"><a class="nav-link" href="playbook.html">Playbook Completo</a></li>
-            </ul>
+    <nav class="navbar navbar-expand-lg modern-header">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i data-feather="credit-card"></i> Playbook CRM 360°
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="playbook.html">Playbook Completo</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="recursos.html">Recursos</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="theme-toggle" id="themeToggle"><i data-feather="moon"></i></button>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -215,7 +335,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Feather icons replacement
-        feather.replace();
         function calcularLTV() {
             const ticket = parseFloat(document.getElementById('ltvTicket').value) || 0;
             const freq = parseFloat(document.getElementById('ltvFreq').value) || 0;
