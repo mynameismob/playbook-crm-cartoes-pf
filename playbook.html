@@ -841,9 +841,7 @@
 <p><strong>Assunto</strong>: Bem-vindo(a) ao seu novo cartão Santander, [Nome do Cliente]! Olá [Nome do Cliente],
 <p>Que bom ter você com a gente! Seu cartão Santander [Nome do Cartão] já está ativo e pronto para uso.</p>
 <p><strong>Para te ajudar a aproveitar ao máximo, separamos algumas dicas</strong>:
-<h2 id="1-baixe-o-app-way-controle-seus-gastos-fatura-limite-e-muito-mais-na-palma-da-sua-mao-link-para-download-do-app-way">1. **Baixe o App Way:** Controle seus gastos, fatura, limite e muito mais na palma da sua mão. [Link para Download do App Way]</h2>
-<h2 id="2-conheca-o-esfera-acumule-pontos-em-suas-compras-e-troque-por-viagens-produtos-e-experiencias-incriveis-link-para-esfera">2. **Conheça o Esfera:** Acumule pontos em suas compras e troque por viagens, produtos e experiências incríveis. [Link para Esfera]</h2>
-<h2 id="3-sua-primeira-compra-use-seu-cartao-em-qualquer-estabelecimento-e-ganhe-beneficio-da-ftc-ex-500-pontos-esfera-bonus">3. **Sua primeira compra:** Use seu cartão em qualquer estabelecimento e ganhe [Benefício da FTC, ex: 500 pontos Esfera bônus]!</h2>
+<!-- As call-to-action items "Baixe o App Way", "Conheça o Esfera" e "Sua primeira compra" foram removidas para evitar conteúdo promocional desnecessário. -->
 <p>Se precisar de ajuda, conte com a gente pelo App Way ou em nossa Central de Atendimento.</p>
 <p>Um abraço,</p>
 <p>Equipe Santander</p>
@@ -889,13 +887,7 @@
 <p>Integração de novos dados sobre melhores práticas globais, segmentação e personalização, e tendências futuras. Reorganização da estrutura e numeração das seções. Adição de KPIs detalhados, tabela RACI e fluxos Mermaid.</p>
 <p>Manus</p>
 <p>AI</p>
-<p>|</p>
-<p>Guia Rápido de Exportação para PDF</p>
-<p>Este playbook foi elaborado em Markdown para facilitar a edição e a colaboração. Para exportá-lo para um PDF com formatação profissional, recomendamos as seguintes ferramentas e passos:</p>
-<p><strong>Opção 1</strong>: Usando Pandoc (Recomendado para controle total)
-<p>O Pandoc é uma ferramenta de linha de comando versátil para conversão de documentos. Ele permite um controle preciso sobre a formatação do PDF.</p>
-<h2 id="1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex">1. Instalação (se necessário): bash sudo apt-get update sudo apt-get install pandoc texlive-xetex</h2>
-<h2 id="2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu">2. Navegue até o diretório do arquivo: bash cd /home/ubuntu/</h2>
+<!-- Removed Quick Export Guide and installation steps that are not part of the CRM playbook -->
 <!-- Nova seção Onboarding Santander com Gestão de Limites -->
 <section id="17-onboarding-santander">
   <h2>17. Onboarding Santander</h2>
@@ -1081,6 +1073,29 @@
           tocUl.appendChild(li17);
           tocUl.appendChild(li171);
         }
+
+        // Remove extraneous TOC items related to promotional call-to-actions and export instructions
+        const idsToRemove = [
+          '#1-baixe-o-app-way-controle-seus-gastos-fatura-limite-e-muito-mais-na-palma-da-sua-mao-link-para-download-do-app-way',
+          '#2-conheca-o-esfera-acumule-pontos-em-suas-compras-e-troque-por-viagens-produtos-e-experiencias-incriveis-link-para-esfera',
+          '#3-sua-primeira-compra-use-seu-cartao-em-qualquer-estabelecimento-e-ganhe-beneficio-da-ftc-ex-500-pontos-esfera-bonus',
+          '#1-instalacao-se-necessario-bash-sudo-apt-get-update-sudo-apt-get-install-pandoc-texlive-xetex',
+          '#2-navegue-ate-o-diretorio-do-arquivo-bash-cd-home-ubuntu',
+          '#3-execute-o-comando-de-conversao-bash-pandoc-playbook-final-md-o-playbook-final-pdf-pdf-engine-xelatex-v-mainfont-\"Arial\"-v-monofont-\"Courier New\"-toc-toc-depth-3-number-sections',
+          '#1-copie-o-conteudo-abra-o-arquivo-playbook-final-md-em-um-editor-de-texto-e-copie-todo-o-conteudo',
+          '#2-cole-no-google-docs-abra-um-novo-documento-no-google-docs-e-cole-o-conteudo-o-google-docs-geralmente-interpreta-bem-a-formatacao-markdown-basica-negritos-titulos',
+          '#3-ajuste-a-formatacao-revise-e-ajuste-manualmente-a-formatacao-fontes-cores-espacamento-para-garantir-que-esteja-profissional-para-tabelas-e-fluxos-mermaid-pode-ser-necessario-copiar-e-colar-como-imagem-ou-usar-complementos',
+          '#4-exporte-para-pdf-va-em-arquivo-fazer-download-documento-pdf-pdf',
+          '#1-importe-o-markdown-crie-uma-nova-pagina-no-notion-clique-em-importar-e-selecione-markdown-csv-escolha-o-arquivo-playbook-final-md',
+          '#2-ajuste-a-formatacao-o-notion-importara-o-markdown-e-aplicara-sua-propria-formatacao-revise-e-ajuste-cores-fontes-e-blocos-para-garantir-o-visual-desejado-fluxos-mermaid-serao-renderizados-se-o-notion-tiver-suporte-a-blocos-de-codigo-ou-integracoes-para-diagramas',
+          '#3-exporte-para-pdf-clique-nos-tres-pontos-no-canto-superior-direito-da-pagina-e-selecione-exportar-escolha-pdf-como-formato-e-ajuste-as-opcoes-de-layout-se-necessario'
+        ];
+        idsToRemove.forEach(id => {
+          const link = tocUl.querySelector(`a[href="${id}"]`);
+          if (link && link.parentElement) {
+            link.parentElement.remove();
+          }
+        });
       }
       // After adding links, ensure icons exist for all TOC items
       const updatedLinks = document.querySelectorAll('.toc ul li a');
