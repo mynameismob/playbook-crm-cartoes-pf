@@ -1096,6 +1096,36 @@
             link.parentElement.remove();
           }
         });
+
+        // Additionally remove TOC items by matching their visible text content to
+        // ensure that any remaining extraneous items are removed even if the
+        // generated slug or href does not exactly match the entries above. We
+        // look for specific phrases at the start of each link's text and
+        // remove the corresponding list item.
+        const textsToRemove = [
+          'Baixe o App Way',
+          'Conheça o Esfera',
+          'Sua primeira compra',
+          'Instalação',
+          'Navegue',
+          'Execute o comando de conversão',
+          'Copie o conteúdo',
+          'Cole no Google Docs',
+          'Ajuste a formatação',
+          'Exporte para PDF',
+          'Importe o Markdown',
+          'Ajuste a formatação (O Notion',
+          'Clique nos',
+          'Ajuste a formatação: O Notion',
+          'Crie uma nova página'
+        ];
+        textsToRemove.forEach(text => {
+          // Find any anchor whose text begins with the provided phrase
+          const item = Array.from(tocUl.querySelectorAll('li a')).find(a => a.textContent.trim().toLowerCase().startsWith(text.toLowerCase()));
+          if (item && item.parentElement) {
+            item.parentElement.remove();
+          }
+        });
       }
       // After adding links, ensure icons exist for all TOC items
       const updatedLinks = document.querySelectorAll('.toc ul li a');
@@ -1110,5 +1140,67 @@
       if (window.feather) window.feather.replace();
     });
     </script>
+
+    <!-- Override and responsive styles added at the end to ensure they take precedence -->
+    <style>
+      /* Responsive layout adjustments */
+      /* Large desktop: reduce sidebar width slightly for more content space */
+      @media (min-width: 1200px) {
+        .toc {
+          width: 22%;
+          max-width: 360px;
+        }
+        .content {
+          padding: 2rem;
+        }
+      }
+
+      /* Tablet and medium screen styling: stack sidebar above content and allow it to scroll */
+      @media (max-width: 992px) {
+        .container-main {
+          flex-direction: column;
+        }
+        .toc {
+          width: 100%;
+          max-height: 40vh;
+          border-right: none;
+          border-bottom: 1px solid rgba(0, 68, 129, 0.1);
+          box-shadow: var(--shadow-soft);
+        }
+        .content {
+          margin-left: 0;
+        }
+      }
+
+      /* Small screens: hide the sidebar to prioritise reading experience */
+      @media (max-width: 768px) {
+        .toc {
+          display: none;
+        }
+        .content {
+          padding: 1rem;
+        }
+      }
+
+      /* Tables: ensure they are responsive and scroll horizontally on small screens */
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 1.5rem;
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .content table thead {
+        background: var(--neutral-light);
+      }
+      .content table th,
+      .content table td {
+        padding: 0.6rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        text-align: left;
+        font-size: 0.9rem;
+      }
+    </style>
   </body>
 </html>
