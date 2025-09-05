@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Playbook Completo – CRM Cartões PF</title>
+  <!-- Atualizado em 05/09/2025 – ajustes de responsividade, navegação móvel e formatação de tabelas -->
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Google Fonts -->
@@ -100,8 +101,8 @@
       height: calc(100vh - 80px);
     }
 
-    /* Sidebar TOC */
-    .toc {
+    /* Sidebar TOC (renomeada de .toc para .sidebar) */
+    .sidebar {
       width: 320px;
       background: white;
       border-right: 1px solid rgba(0, 68, 129, 0.1);
@@ -109,27 +110,27 @@
       overflow-y: auto;
       box-shadow: var(--shadow-soft);
     }
-    .toc h2 {
+    .sidebar h2 {
       font-family: 'Poppins', sans-serif;
       font-weight: 600;
       font-size: 1.2rem;
       color: var(--primary-blue);
       margin-bottom: 1rem;
     }
-    .toc ul {
+    .sidebar ul {
       list-style: none;
       padding-left: 0;
     }
-    .toc li {
+    .sidebar li {
       margin-bottom: 0.4rem;
     }
-    .toc li a {
+    .sidebar li a {
       color: var(--primary-blue);
       text-decoration: none;
       font-size: 0.85rem;
       transition: var(--transition);
     }
-    .toc li a:hover {
+    .sidebar li a:hover {
       color: var(--primary-red);
       text-decoration: underline;
     }
@@ -198,14 +199,14 @@
       background: rgba(14, 26, 43, 0.95);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    body.dark .toc {
+    body.dark .sidebar {
       background: #122a45;
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
-    body.dark .toc li a {
+    body.dark .sidebar li a {
       color: #aecbfa;
     }
-    body.dark .toc li a:hover {
+    body.dark .sidebar li a:hover {
       color: var(--primary-red);
     }
     body.dark .content {
@@ -221,27 +222,15 @@
       color: #f1f1f1;
     }
     /* Scrollbar styling */
-    .toc::-webkit-scrollbar, .content::-webkit-scrollbar {
+    .sidebar::-webkit-scrollbar, .content::-webkit-scrollbar {
       width: 6px;
     }
-    .toc::-webkit-scrollbar-thumb, .content::-webkit-scrollbar-thumb {
+    .sidebar::-webkit-scrollbar-thumb, .content::-webkit-scrollbar-thumb {
       background-color: rgba(0, 68, 129, 0.2);
       border-radius: 3px;
     }</style>
     <!-- Additional responsive and mobile styles -->
     <style>
-    /* Menu toggle button for mobile */
-    .menu-toggle {
-      background: none;
-      border: none;
-      color: var(--primary-blue);
-      font-size: 1.5rem;
-      cursor: pointer;
-      display: none;
-    }
-    .menu-toggle:focus {
-      outline: none;
-    }
     /* Overlay for mobile sidebar */
     .sidebar-overlay {
       display: none;
@@ -258,7 +247,7 @@
     }
     /* Responsive layout adjustments */
     @media (min-width: 1200px) {
-      .toc {
+      .sidebar {
         width: 22%;
         max-width: 360px;
       }
@@ -270,7 +259,7 @@
       .container-main {
         flex-direction: column;
       }
-      .toc {
+      .sidebar {
         width: 100%;
         max-height: 40vh;
         overflow-y: auto;
@@ -283,12 +272,12 @@
       }
     }
     @media (max-width: 768px) {
-      .menu-toggle {
+      .sidebar-toggle {
         display: inline-flex;
         align-items: center;
         justify-content: center;
       }
-      .toc {
+      .sidebar {
         position: fixed;
         top: 0;
         left: 0;
@@ -304,7 +293,7 @@
         border-right: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: var(--shadow-soft);
       }
-      .toc.show {
+      .sidebar.show {
         transform: translateX(0);
       }
       .content {
@@ -324,7 +313,7 @@
       h4, h5, h6 {
         font-size: clamp(1rem, 3vw, 1.3rem);
       }
-      .toc {
+      .sidebar {
         width: 80%;
       }
     }
@@ -348,6 +337,125 @@
       text-align: left;
       font-size: clamp(0.8rem, 1.5vw, 0.95rem);
     }
+
+    /* ---- Responsive Layout Enhancements ---- */
+    /* Sidebar responsive styling */
+    .sidebar {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 280px;
+      height: calc(100vh - 80px);
+      background: var(--neutral-light);
+      overflow-y: auto;
+      z-index: 999;
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      box-shadow: var(--shadow-soft);
+    }
+    .sidebar.show {
+      transform: translateX(0);
+    }
+    /* Sidebar toggle button */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 80px;
+      left: 15px;
+      z-index: 1001;
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    /* Main content adjustments */
+    .container-main {
+      margin-left: 280px;
+    }
+    .content-section,
+    .content {
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+    }
+    /* Responsive breakpoints */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 250px;
+      }
+      .container-main {
+        margin-left: 250px;
+      }
+    }
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .sidebar-toggle {
+        display: flex;
+      }
+      .container-main {
+        margin-left: 0;
+      }
+      .content {
+        padding: clamp(1rem, 2vw, 1.5rem);
+      }
+    }
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 100%;
+      }
+      .content {
+        padding: 1rem;
+      }
+    }
+    /* Table container and modern table styles */
+    .table-container {
+      margin: 2rem 0;
+      overflow-x: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 68, 129, 0.1);
+      -webkit-overflow-scrolling: touch;
+    }
+    .modern-table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      background: white;
+    }
+    .modern-table th {
+      background: var(--gradient-primary);
+      color: white;
+      padding: clamp(0.8rem, 2vw, 1rem);
+      font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+      white-space: nowrap;
+    }
+    .modern-table td {
+      padding: clamp(0.8rem, 2vw, 1rem);
+      font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+      border-bottom: 1px solid rgba(0, 68, 129, 0.1);
+    }
+    @media (max-width: 768px) {
+      .modern-table {
+        min-width: 500px;
+      }
+    }
+    @media (max-width: 480px) {
+      .modern-table {
+        min-width: 400px;
+      }
+      .modern-table th,
+      .modern-table td {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+      }
+    }
     </style>
 </head>
 <body>
@@ -366,7 +474,7 @@
           </ul>
           <div class="d-flex align-items-center gap-3">
             <!-- Mobile menu toggle button (hamburger) -->
-            <button id="menuToggle" class="menu-toggle d-lg-none"><i data-feather="menu"></i></button>
+            <button class="sidebar-toggle" onclick="toggleSidebar()"><i data-feather="menu"></i></button>
             <button id="themeToggle" class="theme-toggle"><i data-feather="moon"></i></button>
           </div>
         </div>
@@ -374,7 +482,7 @@
     </nav>
   </header>
   <div class="container-main">
-    <nav class="toc">
+    <nav class="sidebar" id="sidebar">
 <h2>Índice</h2>
         <!-- Campo de busca para filtrar itens do índice -->
         <input type="text" id="toc-search" class="form-control mb-3" placeholder="Buscar no índice..." onkeyup="filterTOC()">
@@ -1120,7 +1228,7 @@
 <section id="plano360"><h2>Plano 360° – CRM em Cartões de Crédito</h2><iframe src="plano360.html" style="width:100%; height:1400px; border:none;"></iframe></section></div></div>
 
   <!-- Overlay for mobile sidebar -->
-  <div class="sidebar-overlay"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -1137,7 +1245,7 @@
       const input = document.getElementById('toc-search');
       if (!input) return;
       const filter = input.value.toLowerCase();
-      const tocList = document.querySelector('.toc ul');
+      const tocList = document.querySelector('#sidebar ul');
       if (!tocList) return;
       const items = tocList.getElementsByTagName('li');
       for (let i = 0; i < items.length; i++) {
@@ -1163,7 +1271,7 @@
         });
       }
       // Prepend icons to TOC items
-      const tocLinks = document.querySelectorAll('.toc ul li a');
+      const tocLinks = document.querySelectorAll('#sidebar ul li a');
       tocLinks.forEach(link => {
         if (!link.querySelector('i')) {
           const ic = document.createElement('i');
@@ -1173,7 +1281,7 @@
         }
       });
       // Insert new TOC entries for Onboarding Santander
-      const tocUl = document.querySelector('.toc ul');
+      const tocUl = document.querySelector('#sidebar ul');
       if (tocUl) {
         // 17. Onboarding Santander
         const li17 = document.createElement('li');
@@ -1224,7 +1332,7 @@
         });
       }
       // After adding links, ensure icons exist for all TOC items
-      const updatedLinks = document.querySelectorAll('.toc ul li a');
+      const updatedLinks = document.querySelectorAll('#sidebar ul li a');
       updatedLinks.forEach(link => {
         if (!link.querySelector('i')) {
           const ic = document.createElement('i');
@@ -1234,34 +1342,52 @@
         }
       });
 
-      // Mobile sidebar toggle and overlay handling
-      const menuToggle = document.getElementById('menuToggle');
-      const sidebarEl = document.querySelector('.toc');
-      const overlayEl = document.querySelector('.sidebar-overlay');
-      if (menuToggle && sidebarEl && overlayEl) {
-        menuToggle.addEventListener('click', function() {
-          sidebarEl.classList.toggle('show');
-          overlayEl.classList.toggle('show');
-        });
-        overlayEl.addEventListener('click', function() {
-          sidebarEl.classList.remove('show');
-          overlayEl.classList.remove('show');
-        });
-        document.querySelectorAll('.toc a').forEach(link => {
-          link.addEventListener('click', function() {
-            if (window.innerWidth <= 768) {
-              sidebarEl.classList.remove('show');
-              overlayEl.classList.remove('show');
-            }
-          });
-        });
-        window.addEventListener('resize', function() {
-          if (window.innerWidth > 768) {
-            sidebarEl.classList.remove('show');
-            overlayEl.classList.remove('show');
+      // Assign classes to TOC links for mobile behavior
+      document.querySelectorAll('#sidebar ul li a').forEach(link => {
+        link.classList.add('toc-link');
+      });
+      // Toggle sidebar function
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+      }
+      // Expose toggleSidebar globally for inline HTML onclick
+      window.toggleSidebar = toggleSidebar;
+      // Mobile navigation handlers
+      const sidebarToggleBtn = document.querySelector('.sidebar-toggle');
+      if (sidebarToggleBtn) {
+        sidebarToggleBtn.addEventListener('click', toggleSidebar);
+      }
+      // Close sidebar on link click (mobile)
+      document.querySelectorAll('.toc-link').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            toggleSidebar();
           }
         });
-      }
+      });
+      // Close sidebar when clicking outside (mobile)
+      document.addEventListener('click', function(e) {
+        const sidebar = document.getElementById('sidebar');
+        const toggle = document.querySelector('.sidebar-toggle');
+        if (window.innerWidth <= 768 &&
+            sidebar.classList.contains('show') &&
+            !sidebar.contains(e.target) &&
+            !toggle.contains(e.target)) {
+          toggleSidebar();
+        }
+      });
+      // Adjust on window resize
+      window.addEventListener('resize', function() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (window.innerWidth > 768) {
+          sidebar.classList.remove('show');
+          overlay.classList.remove('show');
+        }
+      });
       if (window.feather) window.feather.replace();
     });
     </script>
