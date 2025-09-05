@@ -227,7 +227,129 @@
     .toc::-webkit-scrollbar-thumb, .content::-webkit-scrollbar-thumb {
       background-color: rgba(0, 68, 129, 0.2);
       border-radius: 3px;
-    }</style></head>
+    }</style>
+    <!-- Additional responsive and mobile styles -->
+    <style>
+    /* Menu toggle button for mobile */
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: var(--primary-blue);
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+    }
+    .menu-toggle:focus {
+      outline: none;
+    }
+    /* Overlay for mobile sidebar */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1029;
+    }
+    .sidebar-overlay.show {
+      display: block;
+    }
+    /* Responsive layout adjustments */
+    @media (min-width: 1200px) {
+      .toc {
+        width: 22%;
+        max-width: 360px;
+      }
+      .content {
+        padding: 2rem;
+      }
+    }
+    @media (max-width: 992px) {
+      .container-main {
+        flex-direction: column;
+      }
+      .toc {
+        width: 100%;
+        max-height: 40vh;
+        overflow-y: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 68, 129, 0.1);
+        box-shadow: var(--shadow-soft);
+      }
+      .content {
+        margin-left: 0;
+      }
+    }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .toc {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 70%;
+        max-width: 280px;
+        height: 100%;
+        background: var(--neutral-light);
+        z-index: 1030;
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+        overflow-y: auto;
+        padding: 1rem;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-soft);
+      }
+      .toc.show {
+        transform: translateX(0);
+      }
+      .content {
+        padding: 1rem;
+      }
+    }
+    @media (max-width: 480px) {
+      body {
+        font-size: clamp(0.9rem, 3vw, 1rem);
+      }
+      h2 {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+      }
+      h3 {
+        font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      }
+      h4, h5, h6 {
+        font-size: clamp(1rem, 3vw, 1.3rem);
+      }
+      .toc {
+        width: 80%;
+      }
+    }
+    /* Tables: responsive and scrollable */
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      min-width: 600px;
+    }
+    .content table thead {
+      background: var(--neutral-light);
+    }
+    .content table th,
+    .content table td {
+      padding: clamp(0.5rem, 1vw, 0.8rem);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      text-align: left;
+      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+    }
+    </style>
+</head>
 <body>
   <header class="modern-header">
     <nav class="navbar navbar-expand-lg">
@@ -243,6 +365,8 @@
             <li class="nav-item"><a class="nav-link" href="recursos.html">Recursos</a></li>
           </ul>
           <div class="d-flex align-items-center gap-3">
+            <!-- Mobile menu toggle button (hamburger) -->
+            <button id="menuToggle" class="menu-toggle d-lg-none"><i data-feather="menu"></i></button>
             <button id="themeToggle" class="theme-toggle"><i data-feather="moon"></i></button>
           </div>
         </div>
@@ -995,6 +1119,8 @@
 </section>
 <section id="plano360"><h2>Plano 360° – CRM em Cartões de Crédito</h2><iframe src="plano360.html" style="width:100%; height:1400px; border:none;"></iframe></section></div></div>
 
+  <!-- Overlay for mobile sidebar -->
+  <div class="sidebar-overlay"></div>
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -1096,36 +1222,6 @@
             link.parentElement.remove();
           }
         });
-
-        // Additionally remove TOC items by matching their visible text content to
-        // ensure that any remaining extraneous items are removed even if the
-        // generated slug or href does not exactly match the entries above. We
-        // look for specific phrases at the start of each link's text and
-        // remove the corresponding list item.
-        const textsToRemove = [
-          'Baixe o App Way',
-          'Conheça o Esfera',
-          'Sua primeira compra',
-          'Instalação',
-          'Navegue',
-          'Execute o comando de conversão',
-          'Copie o conteúdo',
-          'Cole no Google Docs',
-          'Ajuste a formatação',
-          'Exporte para PDF',
-          'Importe o Markdown',
-          'Ajuste a formatação (O Notion',
-          'Clique nos',
-          'Ajuste a formatação: O Notion',
-          'Crie uma nova página'
-        ];
-        textsToRemove.forEach(text => {
-          // Find any anchor whose text begins with the provided phrase
-          const item = Array.from(tocUl.querySelectorAll('li a')).find(a => a.textContent.trim().toLowerCase().startsWith(text.toLowerCase()));
-          if (item && item.parentElement) {
-            item.parentElement.remove();
-          }
-        });
       }
       // After adding links, ensure icons exist for all TOC items
       const updatedLinks = document.querySelectorAll('.toc ul li a');
@@ -1137,70 +1233,37 @@
           link.prepend(ic);
         }
       });
+
+      // Mobile sidebar toggle and overlay handling
+      const menuToggle = document.getElementById('menuToggle');
+      const sidebarEl = document.querySelector('.toc');
+      const overlayEl = document.querySelector('.sidebar-overlay');
+      if (menuToggle && sidebarEl && overlayEl) {
+        menuToggle.addEventListener('click', function() {
+          sidebarEl.classList.toggle('show');
+          overlayEl.classList.toggle('show');
+        });
+        overlayEl.addEventListener('click', function() {
+          sidebarEl.classList.remove('show');
+          overlayEl.classList.remove('show');
+        });
+        document.querySelectorAll('.toc a').forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              sidebarEl.classList.remove('show');
+              overlayEl.classList.remove('show');
+            }
+          });
+        });
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 768) {
+            sidebarEl.classList.remove('show');
+            overlayEl.classList.remove('show');
+          }
+        });
+      }
       if (window.feather) window.feather.replace();
     });
     </script>
-
-    <!-- Override and responsive styles added at the end to ensure they take precedence -->
-    <style>
-      /* Responsive layout adjustments */
-      /* Large desktop: reduce sidebar width slightly for more content space */
-      @media (min-width: 1200px) {
-        .toc {
-          width: 22%;
-          max-width: 360px;
-        }
-        .content {
-          padding: 2rem;
-        }
-      }
-
-      /* Tablet and medium screen styling: stack sidebar above content and allow it to scroll */
-      @media (max-width: 992px) {
-        .container-main {
-          flex-direction: column;
-        }
-        .toc {
-          width: 100%;
-          max-height: 40vh;
-          border-right: none;
-          border-bottom: 1px solid rgba(0, 68, 129, 0.1);
-          box-shadow: var(--shadow-soft);
-        }
-        .content {
-          margin-left: 0;
-        }
-      }
-
-      /* Small screens: hide the sidebar to prioritise reading experience */
-      @media (max-width: 768px) {
-        .toc {
-          display: none;
-        }
-        .content {
-          padding: 1rem;
-        }
-      }
-
-      /* Tables: ensure they are responsive and scroll horizontally on small screens */
-      .content table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 1.5rem;
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .content table thead {
-        background: var(--neutral-light);
-      }
-      .content table th,
-      .content table td {
-        padding: 0.6rem;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        text-align: left;
-        font-size: 0.9rem;
-      }
-    </style>
   </body>
 </html>
