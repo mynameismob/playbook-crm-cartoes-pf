@@ -1346,6 +1346,71 @@
             }
             feather.replace();
         });
+
+        // ------- Onboarding page enhancements -------
+        // Merge participant lists and convert bullet paragraphs to proper lists
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wrap labels like Data, Horário, Local, Participantes and Objetivo in <strong> tags
+            document.querySelectorAll('.meeting-section p').forEach(p => {
+                p.innerHTML = p.innerHTML.replace(/^(\s*)(Data|Horário|Local|Participantes|Objetivo da Reunião|Conclusão):/i, function(match, spaces, label) {
+                    return spaces + '<strong>' + label + ':</strong>';
+                });
+            });
+            document.querySelectorAll('.meeting-section').forEach(section => {
+                // Combine consecutive <ul> after "Participantes:" into a single list
+                section.querySelectorAll('p').forEach(p => {
+                    if (p.textContent.trim().toLowerCase() === 'participantes:' ) {
+                        let next = p.nextElementSibling;
+                        let combinedUl = document.createElement('ul');
+                        let moved = false;
+                        while (next && next.tagName === 'UL') {
+                            Array.from(next.children).forEach(li => {
+                                combinedUl.appendChild(li);
+                            });
+                            const removeUl = next;
+                            next = next.nextElementSibling;
+                            removeUl.remove();
+                            // remove empty <p> elements that separate lists
+                            while (next && next.tagName === 'P' && !next.textContent.trim()) {
+                                const emptyP = next;
+                                next = next.nextElementSibling;
+                                emptyP.remove();
+                            }
+                            moved = true;
+                        }
+                        if (moved) {
+                            // insert the combined list after the "Participantes:" paragraph
+                            p.parentNode.insertBefore(combinedUl, p.nextSibling);
+                        }
+                    }
+                });
+                // Convert paragraphs starting with * into list items grouped into <ul>
+                let currentList = null;
+                const paragraphs = Array.from(section.querySelectorAll('p'));
+                paragraphs.forEach(p => {
+                    const trimmed = p.textContent.trim();
+                    if (trimmed.startsWith('*')) {
+                        if (!currentList) {
+                            currentList = document.createElement('ul');
+                            p.parentNode.insertBefore(currentList, p);
+                        }
+                        const li = document.createElement('li');
+                        // remove the leading asterisk and any whitespace
+                        const text = trimmed.replace(/^\*\s*/, '');
+                        li.innerHTML = text;
+                        currentList.appendChild(li);
+                        // Remove the original paragraph and any following empty paragraphs
+                        const nextP = p.nextElementSibling;
+                        p.remove();
+                        if (nextP && nextP.tagName === 'P' && !nextP.textContent.trim()) {
+                            nextP.remove();
+                        }
+                    } else {
+                        currentList = null;
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
