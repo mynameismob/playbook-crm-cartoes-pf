@@ -36,8 +36,8 @@
     .nav-link:hover { color: var(--primary-blue) !important; }
     .theme-toggle { background: none; border: 2px solid var(--primary-blue); border-radius: 50px; padding: 6px 14px; color: var(--primary-blue); cursor: pointer; transition: all 0.3s; }
     .theme-toggle:hover { background: var(--primary-blue); color: #fff; }
-    body.dark .theme-toggle { border-color: var(--secondary-green); color: var(--secondary-green); }
-    body.dark .theme-toggle:hover { background: var(--secondary-green); color: #1a1a1a; }
+    body.dark .theme-toggle { border-color: var(--secondary-red); color: var(--secondary-red); }
+    body.dark .theme-toggle:hover { background: var(--secondary-red); color: #1a1a1a; }
     main { margin-top: 80px; padding: clamp(1rem, 3vw, 2rem); }
     
     /* Melhorias de Tipografia */
@@ -70,7 +70,7 @@
       margin-top: 2.5rem; 
       margin-bottom: 1rem;
       padding: 0.75rem 0;
-      border-bottom: 2px solid var(--secondary-green);
+      border-bottom: 2px solid var(--secondary-red);
     }
     h4 { 
       font-family: 'Poppins', sans-serif; 
@@ -97,7 +97,7 @@
       margin-bottom: 1rem; 
       padding: 0.75rem 1rem;
       background: #fff;
-      border-left: 4px solid var(--secondary-green);
+      border-left: 4px solid var(--secondary-red);
       border-radius: 6px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       list-style: none;
@@ -105,7 +105,7 @@
     }
     li::before {
       content: "▶";
-      color: var(--secondary-green);
+      color: var(--secondary-red);
       font-weight: bold;
       position: absolute;
       left: -0.5rem;
@@ -174,7 +174,7 @@
     /* Separadores Visuais */
     .section-divider {
       height: 3px;
-      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-green));
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-red));
       margin: 3rem 0;
       border-radius: 2px;
     }
@@ -187,9 +187,9 @@
     }
     
     /* Melhorias para Modo Escuro */
-    body.dark .highlight-box { background: rgba(0,68,129,0.2); border-color: var(--secondary-green); }
-    body.dark li { background: #1a2a4a; border-left-color: var(--secondary-green); }
-    body.dark strong { background: rgba(0,68,129,0.3); color: var(--secondary-green); }
+    body.dark .highlight-box { background: rgba(0,68,129,0.2); border-color: var(--secondary-red); }
+    body.dark li { background: #1a2a4a; border-left-color: var(--secondary-red); }
+    body.dark strong { background: rgba(0,68,129,0.3); color: var(--secondary-red); }
     
     /* Estilos para quebras de linha e formatação especial */
     .content-break {
