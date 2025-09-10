@@ -1349,7 +1349,7 @@
 
         // ------- Onboarding page enhancements -------
         // Merge participant lists and convert bullet paragraphs to proper lists
-        document.addEventListener('DOMContentLoaded', function() {
+        (function() {
             // Wrap labels like Data, Horário, Local, Participantes and Objetivo in <strong> tags
             document.querySelectorAll('.meeting-section p').forEach(p => {
                 p.innerHTML = p.innerHTML.replace(/^(\s*)(Data|Horário|Local|Participantes|Objetivo da Reunião|Conclusão):/i, function(match, spaces, label) {
@@ -1410,7 +1410,7 @@
                     }
                 });
             });
-        });
+        })();
     </script>
 </body>
 </html>
