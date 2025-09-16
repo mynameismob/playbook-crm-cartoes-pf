@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -148,6 +149,10 @@
       background: #fff; 
       vertical-align: top;
     }
+    /* Alternating row colors for better readability */
+    table tr:nth-child(even) td {
+      background: var(--section-bg);
+    }
     body.dark table th { background: #162242; color: #e4e8ef; }
     body.dark table td { background: #1a2a4a; color: #e4e8ef; }
 
@@ -230,10 +235,10 @@
 
     <table>
       <tr><th>Reunião</th><td>Ata da Reunião de Apresentação da Área de CRM – Cartões</td></tr>
-      <tr><th>Data</th><td><strong>Início de setembro de 2023</strong></td></tr>
-      <tr><th>Data</th><td><strong>Início de setembro de 2025</strong></td></tr>
+      <tr><th>Data inicial</th><td><strong>Início de setembro de 2023</strong></td></tr>
+      <tr><th>Última atualização</th><td><strong>Início de setembro de 2025</strong></td></tr>
       <tr><th>Responsável</th><td><strong>Pagani</strong> – Head de CRM do Segmento <strong>Especial</strong></td></tr>
-      <tr><th>Ata registrada</th><td><strong>Sim</strong></td></tr>
+      <tr><th>Ata registrada?</th><td><strong>Sim</strong></td></tr>
     </table>
 
     <div class="section-divider"></div>
@@ -1285,7 +1290,7 @@
     <p>Antes de mergulharmos nos detalhes da nossa operação, é fundamental entendermos o ecossistema em que estamos inseridos. O Santander não é apenas um banco; é uma instituição financeira global, com operações em dezenas de países. Aqui no Brasil, somos o maior banco privado da América Latina. Essa dimensão traz complexidades organizacionais que – longe de serem burocracias desnecessárias – são estruturas pensadas para garantir governança, compliance e eficiência em uma operação que movimenta bilhões de reais diariamente.</p>
     <p>A estrutura hierárquica que vamos detalhar não é só um organograma tradicional. É um mapa de poder e responsabilidades e, principalmente, de como as decisões fluem desde a alta direção até a execução do dia a dia. Compreender esse mapa é essencial para sabermos a quem reportar, com quem alinhar e como escalar questões quando necessário.</p>
     <h3>1.2. A Pirâmide de Liderança: Do CEO aos Especialistas</h3>
-    <p>No topo da pirâmide: A Presidência</p>
+    <p><strong>No topo da pirâmide:</strong> A Presidência</p>
     <ul>
       <li>Mario – CEO do Santander Brasil: É a figura máxima de liderança local, responsável por toda a operação brasileira. Grandes estratégias, investimentos e decisões que impactam o banco como um todo passam por ele ou são tomadas em seu nome.</li>
     </ul>
@@ -1315,7 +1320,7 @@
     <ul>
       <li>Pagani – Head (Superintendente) de CRM: Ele responde ao Léo e cuida mais de perto da operação diária de CRM. O Pagani é nosso ponto focal para questões de priorização de demandas, gestão de capacity (capacidade de entrega), resolução de conflitos entre frentes e alinhamentos táticos do dia a dia. Se temos algum entrave ou precisamos negociar recursos, geralmente fazemos isso via Pagani.</li>
     </ul>
-    <p>Nomenclatura de cargos no Santander: Vale entender a nomenclatura específica que o banco usa, pois difere de outras empresas:</p>
+    <p><strong>Nomenclatura de cargos no Santander:</strong> Vale entender a nomenclatura específica que o banco usa, pois difere de outras empresas:</p>
     <ul>
       <li>Head Senior = Superintendente Executivo (equivalente a um Diretor Executivo em outras empresas).</li>
       <li>Head = Superintendente (equivalente a um Diretor).</li>
@@ -1328,17 +1333,17 @@
     <ul>
       <li>Time de Alavancas – Os orquestradores das grandes iniciativas</li>
     </ul>
-    <p> Liderança: Aline (Head de Alavancas) – em cuja equipe está a Laís.</p>
+    <p><strong>Liderança:</strong> Aline (Head de Alavancas) – em cuja equipe está a Laís.</p>
     <p>Esse time é fundamental: eles organizam as grandes iniciativas comerciais do banco, as “big bets” que envolvem várias áreas. Sabe aquelas campanhas como “Mês do Cliente”, “Black Friday” ou lançamentos que englobam múltiplos produtos ao mesmo tempo? O time de Alavancas é quem coloca todos na mesma mesa: produto X, produto Y, canais, CRM, compliance, jurídico, etc. Eles atuam como maestros, garantindo que todos os instrumentos (áreas) toquem em harmonia durante uma grande campanha.</p>
     <ul>
       <li>Canal Digital – Nossos parceiros de execução e criação</li>
     </ul>
-    <p> Liderança: Rafa Lima (Líder do Canal Digital, que se reporta à Marcela, a executiva responsável pelos canais digitais).</p>
+    <p><strong>Liderança:</strong> Rafa Lima (Líder do Canal Digital, que se reporta à Marcela, a executiva responsável pelos canais digitais).</p>
     <p>O time do Rafa cuida da experiência do cliente nos canais digitais (app, internet banking) e também produz as peças criativas digitais que usamos nas campanhas: banners de app/web, lightboxes (pop-ups no app), push notifications, emails marketing, etc. Eles são nossos parceiros diretos na execução – em outras palavras, transformam nossas estratégias em realidade visual e funcional para o cliente. Se precisamos de um banner bonito e eficaz, ou de uma página de destino (landing page) no app, é o time do Rafa que faz acontecer.</p>
     <ul>
       <li>Plataforma (Fábrica de Campanhas) – A engenharia por trás das campanhas</li>
     </ul>
-    <p> Liderança: Sandro (Head de Plataforma).</p>
+    <p><strong>Liderança:</strong> Sandro (Head de Plataforma).</p>
     <p>Este é o time técnico que constrói e dispara de fato as campanhas nos sistemas do banco. Quando cadastramos uma demanda no Workfront (ferramenta de gestão de demandas, falaremos dela adiante), é a equipe do Sandro que pega nosso briefing e o traduz em campanhas “de verdade” dentro dos sistemas: segmenta o mailing, programa o disparo do push, configura o banner no app, garante que o tracking (rastreamento de cliques) funcione, etc. Eles são como os “engenheiros” que montam os blocos conforme especificamos. Sem eles, nossas ideias não chegam ao cliente.</p>
     <p>(Existem outras áreas com quem interagimos – Ex.: Compliance para aprovar comunicações, Jurídico para textos e regulamentos de ofertas, Riscos para políticas de crédito, etc. – mas os três acima são os que convivem conosco diariamente.)</p>
     <h3>1.5. Por Que Essa Estrutura Importa para Nós?</h3>
