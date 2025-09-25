@@ -3107,3 +3107,79 @@
 <p><strong>Escalação de conflitos:</strong> Caso receba tarefas de diferentes direções (p. ex., um pedido direto do produto enquanto outra demanda vem pelo fórum), comunique imediatamente o líder de CRM. Isso evita confusão e garante que você siga o direcionamento correto.</p>
 
 <p><em>Este playbook consolida o que foi discutido nas reuniões iniciais e deve servir como referência permanente. À medida que a equipe evolui e surgem novos processos, atualizaremos este documento. Até lá, use-o como guia para navegar pelas responsabilidades diárias e alinhar suas ações à estratégia ampla da equipe de CRM.</em></p>
+<h2>Playbook de Campanhas e Segmentação – Sessão do Erick Nogueira Peixoto</h2>
+<p>Este playbook consolida, em formato operacional, tudo que o Erick apresentou: visão por canais de comunicação, como pedir e habilitar dados (motor e CDP), leitura de painéis, e o passo a passo da seleção de público no Oracle (OOPRESQL). O conteúdo está organizado para servir como guia de onboarding e de execução do dia a dia, com exemplos práticos e uma seção de perguntas e respostas.</p>
+
+<h3>1. Panorama dos Canais de Comunicação</h3>
+<p><strong>Visão geral:</strong> Trabalhamos com 6 canais. Para facilitar o entendimento e a execução, o Erick organizou por canal, pois isso simplifica a explicação, o desenho de táticas e a medição.</p>
+<p><strong>Push (notificação mobile):</strong> Mensagens entregues no dispositivo do cliente via app. Excelente para comunicação imediata, ativa retorno rápido e pode direcionar ações (ex.: abrir o app em determinada tela ou iniciar um chatbot).</p>
+<p><strong>E-mail:</strong> Comunicação assíncrona, permite conteúdo mais rico, esteiras de nutrição e testes A/B. Útil para ofertas, educação e mensagens transacionais.</p>
+<p><strong>Canais humanos:</strong> Envolvem atendimento por pessoas (central, rede/agências). Costumam ser mais caros e devem ser acionados quando o caso exige complexidade ou validação humana. Existem subdivisões internas (ex.: diferentes frentes na rede) que, neste momento, não entraremos em detalhe.</p>
+<p><strong>App de Cartões (“EI”):</strong> Aplicativo voltado ao universo de cartões, com gatilhos de comunicação e experiências específicas desse produto.</p>
+<p><strong>App Mobile atual (MBPF/MBD):</strong> Aplicativo geral do banco hoje em produção. Nele, rodamos push, deep links e fluxos de autoatendimento.</p>
+<p><strong>Novo App Mobile (“One Digital”):</strong> O banco está implementando um novo aplicativo (substituirá o atual). No dia a dia, a lógica de operação e comunicação é similar; haverá período de coexistência e posterior migração.</p>
+
+<h3>2. Pedido de Dados e Atributos (Motor e CDP)</h3>
+<p><strong>Por que solicitar atributos?</strong> Campanhas e segmentações dependem de atributos confiáveis (ex.: posse de cartão, idade, motivo de contato com a central). Esses atributos precisam existir nos sistemas que disparam campanhas e unificam perfis.</p>
+
+<h4>2.1 Template de Solicitação de Dado</h4>
+<p><strong>Como pedimos:</strong> Abrimos um card de criação e anexamos um template padronizado, totalmente preenchido. Esse preenchimento completo acelera a aprovação e evita idas e vindas com o time de plataforma/matriz.</p>
+<p><strong>Campos essenciais (exemplo prático):</strong> Estratégia (o que queremos alcançar – ex.: direcionar ao chatbot para autoatendimento), Objetivo (reduzir uso da central, melhorar experiência, reduzir custo), Apresentação do Produto (explicar o produto – ex.: consórcio – pois a matriz na Espanha pode não conhecer particularidades locais), Uso do Dado (como será usado na campanha), Fonte (se já existe base/atributo em uso interno).</p>
+<p><strong>Dica específica da CDP:</strong> Na CDP, em muitos casos, <em>não é necessário</em> informar o “código do atributo” (como puxar tecnicamente). Se já houver base/atributo semelhante no motor, podemos delegar mais ao time de plataforma para a criação no padrão Adobe.</p>
+<p><strong>Exemplo citado:</strong> Atributo “motivo da ligação à central” (cartões, seguros, investimentos…). Após estudo, identificou-se o valor de pedir esse dado para orquestrar empurrões ao chatbot quando o motivo for resolvível por autoatendimento.</p>
+
+<h4>2.2 Fluxos e Prazos</h4>
+<p><strong>Motor de CRM (IBM/Oracle):</strong> Em geral, ~1 semana para disponibilizar um novo atributo, quando a especificação está clara (nome/código, origem, regra de povoamento).</p>
+<p><strong>CDP (Adobe):</strong> Governada pela matriz (Espanha), com backlog e validação centralizada. Em média, ~2 meses para subir novo atributo. Por isso, a apresentação do produto e o contexto de uso precisam estar muito claros no template.</p>
+<p><strong>Observação importante:</strong> Produtos “puro suco do Brasil” (ex.: consórcio) exigem explicação de negócio no template – isso acelera entendimento e aprovação.</p>
+
+<h4>2.3 Regra Recente para Push</h4>
+<p><strong>Push hoje e amanhã:</strong> Se um atributo for usado em campanha de push, <em>ele também deve ser solicitado na CDP</em>. Motivo: em breve os disparos de push serão “tombados” para a Adobe. Se o dado existir apenas no motor, a campanha não se sustenta após a migração.</p>
+
+<h3>3. Métricas e Painéis de Resultado</h3>
+<p><strong>Painel principal (CRM):</strong> Consolida campanhas de todos os canais, mostrando envios, aberturas, cliques, conversões e outros indicadores.</p>
+<p><strong>Painel da fábrica (avançado):</strong> Usa a mesma fonte do principal, porém traz <em>quebras de público</em> (ex.: segmentos internos de uma campanha de capitalização) e indicadores específicos (ex.: VDS). É nele que analisamos desempenho por segmento quando o painel principal não detalha.</p>
+<p><strong>Prática recomendada:</strong> Usar o painel principal para visão macro e o painel da fábrica para análises por subpúblico/variações. Garantir que todos os envolvidos tenham acesso. Quando uma campanha tiver várias quebras, consultar o painel avançado para entender performance por segmento.</p>
+
+<h3>4. Seleção de Público no Oracle (OOPRESQL)</h3>
+<p><strong>Ambiente:</strong> A seleção de público para os canais BM é feita no Oracle, via máquina virtual e ferramenta OOPRESQL (ESQL). É onde criamos consultas que extraem públicos-alvo.</p>
+
+<h4>4.1 Motores</h4>
+<p><strong>Motor HUM:</strong> Clientes correntistas (com conta ativa ou inativa). Cada linha é um cliente unificado; as colunas são atributos (ex.: nome, flags de posse de produtos, idade).</p>
+<p><strong>Segundo motor:</strong> Existe um segundo motor (não detalhado nominalmente na sessão) usado para perfis que não se encaixam no HUM ou para casos específicos. O Erick apenas indicou que “temos basicamente 2 motores”.</p>
+
+<h4>4.2 Exemplos de Consulta</h4>
+<p><strong>Cliente específico (ilustração):</strong> SELECT DESC_NOME, CPF, CARTAO_CREDITO_FLAG, IDADE FROM HUM WHERE CPF = ‘99999999999’;</p>
+<p><strong>Contar clientes com cartão ativo:</strong> SELECT COUNT(*) FROM HUM WHERE CARTAO_CREDITO_FLAG = 1;</p>
+<p><strong>Filtrar por idade (18 a 50):</strong> SELECT COUNT(*) FROM HUM WHERE CARTAO_CREDITO_FLAG = 1 AND IDADE BETWEEN 18 AND 50;</p>
+<p><strong>Notas da demonstração:</strong> Ele mostrou contagens totais e depois com filtro de idade, evidenciando a redução substancial do volume. Os números exatos variam conforme a base do momento; encare-os como exemplos de abordagem.</p>
+
+<h4>4.3 Boas Práticas e Cuidados</h4>
+<p><strong>Salvar sempre:</strong> Crie e salve seus arquivos .ESQL a cada evolução (a sessão pode encerrar ao fim do ponto). Em caso de queda, evita-se refazer do zero.</p>
+<p><strong>Validar tamanhos:</strong> Antes de extrair listas completas, use COUNT(*) para conferir o tamanho do público; isso previne erros de escala e tempos de processamento desnecessários.</p>
+<p><strong>Cruzamento com painéis:</strong> Após a extração, valide no painel se o comportamento do público segmentado bate com o esperado (quebras, taxas e performance).</p>
+
+<h3>5. Exemplo de Caso de Uso – Redução de Limite via Push</h3>
+<p><strong>Contexto:</strong> Precisamos comunicar clientes que tiveram redução de limite e direcioná-los ao chatbot para dúvidas/autoatendimento (reduzindo carga na central).</p>
+<p><strong>Passo 1 – Dados:</strong> Verificar se o atributo “redução de limite” existe no motor e pedir criação na CDP. Se não existir, abrir dois pedidos (motor + CDP) usando o template completo (estratégia, objetivo, apresentação do produto, uso do dado, fonte).</p>
+<p><strong>Passo 2 – Segmentação:</strong> No HUM, montar a query (ex.: clientes com cartão ativo AND redução de limite recente). Validar volume com COUNT(*) e, se necessário, adicionar filtros (idade, perfil de risco, etc.).</p>
+<p><strong>Passo 3 – Orquestração no canal:</strong> Configurar a campanha de push (deep link para tela do app ou chatbot). Planejar janela de envio e cadência.</p>
+<p><strong>Passo 4 – Medição:</strong> Acompanhar resultados no painel principal (abertura/clique) e no painel da fábrica (quebra por público). Avaliar se houve redução de contatos na central para o motivo em questão.</p>
+
+<h3>6. Perguntas e Respostas (P&amp;R)</h3>
+<p><strong>P: Como peço um novo atributo para campanha?</strong> R: Preencha o template com o máximo de contexto (estratégia, objetivo, apresentação do produto, uso do dado e fonte). Abra o pedido para o motor (aprox. 1 semana) e para a CDP (aprox. 2 meses).</p>
+<p><strong>P: Por que duplicar o pedido na CDP para push?</strong> R: As campanhas de push serão migradas para a Adobe. Sem o atributo na CDP, a campanha não roda após a migração.</p>
+<p><strong>P: O que explicar na “apresentação do produto”?</strong> R: Conceitos e particularidades locais (ex.: consórcio) – a matriz pode não conhecer detalhes do mercado brasileiro. Isso acelera a aprovação.</p>
+<p><strong>P: Onde vejo o resultado por subpúblico?</strong> R: No painel avançado da fábrica (mesma fonte do painel principal), que traz quebras de público e, quando aplicável, indicadores como VDS.</p>
+<p><strong>P: Qual motor usar?</strong> R: Em geral, HUM para correntistas (cada linha = cliente unificado). Existe um segundo motor para outros perfis; usar conforme a diretriz do time de dados/plataforma.</p>
+<p><strong>P: Como garantir que não vou perder trabalho no OOPRESQL?</strong> R: Salve o .ESQL com frequência. Em caso de encerramento de sessão, você retoma do ponto salvo.</p>
+
+<h3>7. Checklist Operacional Rápido</h3>
+<p><strong>Antes de pedir dados:</strong> Validar se já existe o atributo; se não, preparar template completo (motor + CDP).</p>
+<p><strong>Antes de extrair público:</strong> Definir regras de negócio claras (ex.: produto, janela temporal, filtros de elegibilidade) e validar tamanho com COUNT(*).</p>
+<p><strong>Antes de disparar:</strong> Confirmar a disponibilidade dos atributos nos sistemas, conferindo payloads e integrações do canal (push/e-mail/app).</p>
+<p><strong>Depois do disparo:</strong> Medir no painel principal e detalhar no painel da fábrica (quebras). Documentar aprendizados.</p>
+
+<h3>8. Encerramento</h3>
+<p><strong>Resumo:</strong> O fluxo recomendado é “negócio → dado → motor/CDP → segmentação → execução → medição → iteração”. A disciplina no template, a dupla solicitação para push e o uso combinado dos painéis garantem consistência de ponta a ponta.</p>
+<p><em>Nota final: em migrações de canal (como a do push para a Adobe), antecipe o pedido de dados na CDP para que nenhuma campanha fique indisponível no corte.</em></p>
