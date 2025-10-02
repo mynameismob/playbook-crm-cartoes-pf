@@ -3260,3 +3260,165 @@
 
 <p><em>Seguindo este playbook passo a passo, a abertura de briefing para bases externas (especialmente em comunicações regulatórias) será feita com consistência, reduzindo riscos de erros e garantindo que todos os detalhes sejam tratados de forma didática e completa.</em></p>
 
+<h2>Playbook: Como Abrir um Briefing de Campanha</h2>
+
+<p>Este playbook detalha o processo completo de abertura de um briefing de campanha, desde a seleção do público até o preenchimento de todas as informações no sistema (Workfront/IBM). Cada passo é descrito de forma clara e sequencial para evitar falhas. Suponha que você já tenha acesso ao ambiente Oracle CRM e ao Workfront, e siga as políticas internas de priorização e criação de campanhas.</p>
+
+<h3>1. Preparação e acesso às ferramentas</h3>
+
+<p><strong>Acesso ao Oracle CRM:</strong> Abra o PL/SQL Developer (ou ferramenta equivalente) e conecte-se à base de dados de CRM. Dependendo da campanha, selecione o schema de campanhas (por exemplo, CRM.CAMP_PF_ANALITICO para pessoa física com conta corrente, ou outro motor específico de campanha).</p>
+
+<p><strong>Identificação do motor correto:</strong> Existem dois motores principais em nosso CRM: um que reúne apenas correntistas e outro que inclui correntistas e não-correntistas. Defina com o time qual usar (em geral, use CAMP_PF para correntistas ou CAMP_PF_ANALITICO se precisar de não-correntistas).</p>
+
+<p><strong>Ferramenta de briefs:</strong> Abra também o sistema de gerenciamento de demandas (Workfront/IBM). Prepare-se para criar um novo pedido de campanha (fluxo “Campanha – Reserva IBM” ou similar) assim que terminar a seleção de público.</p>
+
+<h3>2. Seleção de público-alvo no Oracle</h3>
+
+<p><strong>Visualize a tabela de clientes:</strong> No Oracle, use uma consulta inicial para conhecer as colunas disponíveis. Por exemplo:</p>
+
+<pre>
+SELECT COD_CLIENTE, SEGMENTO_PRIMARIO, NOME_CLIENTE
+FROM CAMP_PF
+WHERE 1=0;
+</pre>
+
+<p>Isso mostra as colunas sem retornar registros. Identifique os campos que vai usar (por exemplo, código do cliente, segmento, status de cliente ativo/inativo, flags de produtos, etc.).</p>
+
+<p><strong>Aplique filtros padrões:</strong> Comece incluindo filtros básicos que valem para a maioria das campanhas:</p>
+<ul>
+  <li>Clientes ativos: Adicione <code>CLIENTE_ATIVO = 1</code>.</li>
+  <li>Segmento de público: Inclua <code>SEGMENTO_PRIMARIO IN (...)</code>.</li>
+  <li>Excluir vulneráveis: <code>CLUSTER_VULNERAVEL NOT IN (1,2)</code>.</li>
+  <li>Sem atraso: <code>DIAS_ATRASO <= 10</code>.</li>
+</ul>
+
+<p>Esses filtros iniciais reduzem o volume. Exemplo:</p>
+
+<pre>
+SELECT COD_CLIENTE, NOME_CLIENTE, SEGMENTO_PRIMARIO
+FROM CAMP_PF
+WHERE CLIENTE_ATIVO = 1
+  AND SEGMENTO_PRIMARIO IN (00457,00106)
+  AND CLUSTER_VULNERAVEL NOT IN (1,2)
+  AND DIAS_ATRASO <= 10;
+</pre>
+
+<p><strong>Adicione filtros específicos ao produto/tema:</strong> Inclua condições adicionais:</p>
+<ul>
+  <li><code>FL_CARTAO_CRED_ATIVO = 1</code> (cartão de crédito ativo).</li>
+  <li><code>FL_GASTO_AUTO = 1</code> (gastos em automóvel).</li>
+  <li><code>IN_USO_SEM_PARAR = 1</code> (uso do benefício Sem Parar).</li>
+</ul>
+
+<p>Exemplo de campanha “Sem Parar” para clientes especiais com gastos em automóvel:</p>
+
+<pre>
+SELECT COD_CLIENTE, NOME_CLIENTE, SEGMENTO_PRIMARIO
+FROM CAMP_PF
+WHERE CLIENTE_ATIVO = 1
+  AND SEGMENTO_PRIMARIO IN (00457,00106)
+  AND CLUSTER_VULNERAVEL NOT IN (1,2)
+  AND FL_CARTAO_CRED_ATIVO = 1
+  AND FL_GASTO_AUTO = 1;
+</pre>
+
+<p><strong>Verifique o resultado:</strong> Execute a consulta, veja a volumetria e compare com campanhas antigas para validar consistência.</p>
+
+<h3>3. Uso do Dicionário de Dados</h3>
+
+<p>Se não souber o nome de um atributo, pesquise no dicionário:</p>
+
+<pre>
+SELECT NOME_ATRIBUTO, DESCRICAO_ATRIBUTO
+FROM CM_ADM_ATTRIB_DICT
+WHERE COD_MOTOR = 'CAMP_PF'
+  AND ATIVO = 'S'
+  AND (UPPER(NOME_ATRIBUTO) LIKE '%TERMO%'
+       OR UPPER(DESCRICAO_ATRIBUTO) LIKE '%TERMO%');
+</pre>
+
+<p>Exemplo: procurar <code>%AUTO%</code> retorna <code>FL_GASTO_AUTO</code> (Clientes que gastaram em automóvel).</p>
+
+<h3>4. Montando e validando a consulta final</h3>
+
+<p>Com atributos corretos, monte a query final. Valide com CPF de clientes conhecidos:</p>
+
+<pre>
+SELECT CPF, SEGMENTO_PRIMARIO, CLIENTE_ATIVO, CLUSTER_VULNERAVEL, 
+       FL_CARTAO_CRED_ATIVO, FL_GASTO_AUTO
+FROM CAMP_PF
+WHERE COD_CLIENTE = 'XXXXXX';
+</pre>
+
+<p>Anote a volumetria obtida.</p>
+
+<h3>5. Registro dos critérios de seleção</h3>
+
+<p>Liste no briefing:</p>
+<ul>
+  <li>Motor usado (ex.: CAMP_PF).</li>
+  <li>Critérios: CLIENTE_ATIVO=1, segmentos, exclusão vulneráveis, flags de produtos.</li>
+  <li>Volumetria estimada (ex.: 3 milhões de clientes).</li>
+</ul>
+
+<h3>6. Preenchimento do briefing no Workfront/IBM</h3>
+
+<p>No Workfront, abra “Campanha – Digital/Reserva IBM” e preencha:</p>
+<ul>
+  <li>Responsável/squad</li>
+  <li>Segmento: PF</li>
+  <li>Tipo de comunicação</li>
+  <li>Objetivo</li>
+  <li>Periodicidade</li>
+  <li>Substituição de campanha (sim/não)</li>
+  <li>Tipo de audiência (Offline/Lote)</li>
+  <li>Canais</li>
+  <li>Nome seguindo padrão: [Bloco]_[Segmento]_[Produto]_[Tema]_[Diferencial]</li>
+  <li>Datas e periodicidade</li>
+  <li>Descrição do público-alvo (colando os filtros)</li>
+  <li>Políticas (views, supressão, prioridade)</li>
+</ul>
+
+<h3>7. Criação de VDS (se necessário)</h3>
+
+<p>Crie subgrupos como Sudeste/Nordeste e aplique regras extras. Cada VDS precisa de criativo/código de estímulo próprio.</p>
+
+<h3>8. Inclusão de peças criativas</h3>
+
+<p>Cadastre a peça no IBM, gere código de estímulo e vincule no briefing. Em e-mail/app, insira OID e link. Garanta correspondência com VDS.</p>
+
+<h3>9. Campanhas em canal móvel (Adobe/CDP)</h3>
+
+<p>No canal mobile, selecione público via Adobe/CDP com variáveis equivalentes:</p>
+<ul>
+  <li>Ativo: <code>customer_native_indicator</code></li>
+  <li>Segmento: <code>customer_segment_code</code></li>
+  <li>Cartão ativo: <code>credit_card_active</code></li>
+  <li>Gasto auto: <code>purchase_category_auto_flag</code></li>
+</ul>
+
+<p>Descreva no briefing como mapeou cada critério.</p>
+
+<h3>10. Ajuste de campanha existente</h3>
+
+<p>Se for ajuste:</p>
+<ul>
+  <li>Novo pedido tipo Ajuste/Complemento</li>
+  <li>Indicar campanha alvo</li>
+  <li>Descrever mudança (ex.: trocar peça, atualizar link, mudar política ou datas)</li>
+</ul>
+
+<h3>11. Políticas de campanha</h3>
+
+<p>Confirme sempre:</p>
+<ul>
+  <li>Views diárias (ex.: 2)</li>
+  <li>Supressão (ex.: 0 dias)</li>
+  <li>Prioridade (consultar tabela interna, ex.: Cartões Estabilização = 1–50)</li>
+</ul>
+
+<h3>12. Revisão final e envio</h3>
+
+<p>Verifique todos os campos, peça revisão de colega, envie o pedido e guarde o número de acompanhamento.</p>
+
+<p><em>Seguindo este roteiro passo a passo, você garante que a campanha será configurada corretamente desde a seleção de público até a peça final, minimizando erros.</em></p>
