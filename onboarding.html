@@ -3183,3 +3183,80 @@
 <h3>8. Encerramento</h3>
 <p><strong>Resumo:</strong> O fluxo recomendado é “negócio → dado → motor/CDP → segmentação → execução → medição → iteração”. A disciplina no template, a dupla solicitação para push e o uso combinado dos painéis garantem consistência de ponta a ponta.</p>
 <p><em>Nota final: em migrações de canal (como a do push para a Adobe), antecipe o pedido de dados na CDP para que nenhuma campanha fique indisponível no corte.</em></p>
+<h2>Playbook Detalhado: Abertura de Briefing para Comunicações com Base Externa</h2>
+<p><strong>Objetivo</strong></p>
+<p>Este guia apresenta passo a passo detalhado para abrir e preencher um briefing de comunicação destinado a bases externas, sobretudo em contextos regulatórios. O objetivo é padronizar o processo, garantir a precisão técnica e evitar falhas que possam comprometer envios sensíveis. Cada etapa inclui verificações críticas de conteúdo, variáveis e configurações para assegurar que a mensagem correta chegue ao cliente certo.</p>
+
+<h3>Contexto de Exemplo: Campanha de Cancelamento de Cartão Adicional</h3>
+<p><strong>Situação:</strong> Identificou-se que alguns clientes possuem cartões adicionais registrados indevidamente no mesmo CPF do titular (o que é proibido).</p>
+<p><strong>Objetivo da campanha:</strong> Enviar uma comunicação regulatória (via SMS ou Push) informando que esses cartões adicionais serão cancelados.</p>
+<p><strong>Característica da comunicação:</strong> Mensagem obrigatória definida pelo jurídico e produtos, com conteúdo previamente aprovado. Nosso papel é executar tecnicamente o disparo fielmente, respeitando todas as diretrizes.</p>
+
+<h3>Fase 1: Preparação e Análise Crítica (Pré-Cadastro)</h3>
+<h4>1.1. Localização e Validação da Peça Criativa</h4>
+<p>A peça criativa é o texto final da mensagem (SMS, Push etc.) que o cliente receberá. Acesse a ferramenta Visto (ou repositório interno) e localize a peça pelo código ou nome da campanha.</p>
+<p><strong>Conteúdo aprovado:</strong> Lembre-se de que o conteúdo (texto, tom de voz e informações obrigatórias) foi definido pelo time de produtos e jurídico. Não altere nada do texto aprovado. Nosso papel é apenas copiar e configurar.</p>
+<p><strong>Checklist de validação:</strong></p>
+<ul>
+  <li>Ortografia e gramática: Leia atentamente a mensagem para garantir que não há erros de digitação ou português. Corrija apenas se for erro genuíno (evite mudanças de estilo).</li>
+  <li>Placeholders/Variáveis: Identifique marcadores no texto (por exemplo, XXX ou [#NOME#]) que indicam onde serão inseridos dados personalizados.</li>
+  <li>Consistência: Certifique-se de que a mensagem está clara, objetiva e compatível com o objetivo da campanha. Confirme se mencionou corretamente o motivo e termos obrigatórios.</li>
+</ul>
+
+<h4>1.2. Manuseio dos Arquivos da Peça (Excel/PDF)</h4>
+<ul>
+  <li><strong>Download da peça:</strong> Faça o download do arquivo da peça criativa (normalmente em Excel ou PDF) através da ferramenta Visto.</li>
+  <li><strong>Problema de caminho longo no Windows:</strong> Arquivos em diretórios muito extensos podem não abrir. <br>
+  – <em>Solução:</em> copie o arquivo para um diretório local curto (ex: C:\Users\SeuUsuario\Downloads).<br>
+  – <em>Boa prática:</em> mantenha o arquivo original no diretório compartilhado para registro.</li>
+</ul>
+
+<h3>Fase 2: Cadastro do Estímulo na Plataforma</h3>
+<h4>2.1. Preenchimento dos Campos de Identificação do Briefing</h4>
+<ul>
+  <li>Seu ID: [Seu ID de usuário]</li>
+  <li>Tipo de Disparo: Disparo Pontual</li>
+  <li>Canal: SMS ou Push</li>
+  <li>Segmento: PF</li>
+  <li>Produto: Cartões</li>
+  <li>Número do Briefing: [Número da Campanha]</li>
+  <li>Tipo de Comunicação: Regulatória</li>
+  <li>Número da Peça: [código da peça no Visto]</li>
+  <li>Volume de Disparos: [ex.: 3000]</li>
+</ul>
+
+<h4>2.2. Configuração Específica para Canal SMS (Orçamento)</h4>
+<ul>
+  <li>Uniorg: 32</li>
+  <li>Conta Contábil: 800 4067</li>
+  <li>Custo por Disparo: R$ 0,04</li>
+</ul>
+<p><em>Nota:</em> mensagens acima de 160 caracteres são cobradas como múltiplos disparos. Ex.: 300 caracteres = R$0,08. Mesmo assim, pode ser melhor listar todos os cartões em um único SMS para evitar múltiplas mensagens.</p>
+<p>No Push, não há custo nem seção de orçamento.</p>
+
+<h4>2.3. Configuração do Conteúdo e Variáveis da Mensagem</h4>
+<ul>
+  <li><strong>Descrição/Título do Estímulo:</strong> nome claro, ex: Cancelamento Cartão Adicional - CPF Titular.</li>
+  <li><strong>Texto da Mensagem:</strong> copie exatamente da peça aprovada (sem alterar nada).</li>
+  <li><strong>Substituição de Placeholders:</strong> troque XXX por variáveis [Variável 1], [Variável 2] etc.</li>
+  <li><strong>Mapeamento:</strong> associe cada variável à coluna da base de dados (ex: [Variável 1] = últimos 4 dígitos NRCRTO).</li>
+</ul>
+
+<h4>2.4. Criação e Geração do Código do Estímulo</h4>
+<ul>
+  <li>Clique em “Criar Estímulo” → o sistema gera um código único (ex: SMS_PF_12345).</li>
+  <li>Registre o código como comprovante.</li>
+  <li>Confirme se não houve erros de cadastro.</li>
+</ul>
+<p><em>Obs.:</em> No Push, o processo é igual, sem a parte de orçamento.</p>
+
+<h3>Fase 3: Pós-Criação e Boas Práticas</h3>
+<ul>
+  <li><strong>Comunicação Interna:</strong> informe o código do estímulo ao time de execução e ao solicitante.</li>
+  <li><strong>Documentação:</strong> salve prints da confirmação e anexe ao dossiê da campanha.</li>
+  <li><strong>Bases de Dados e SQL:</strong> anexe a base externa ou a query SQL usada para extração. Certifique-se de que os nomes das colunas batem com as variáveis mapeadas.</li>
+  <li><strong>Verificação Final:</strong> confirme ambiente de disparo correto (Produção), revise campos e, se possível, peça dupla checagem por outro colega.</li>
+</ul>
+
+<p><em>Seguindo este playbook passo a passo, a abertura de briefing para bases externas (especialmente em comunicações regulatórias) será feita com consistência, reduzindo riscos de erros e garantindo que todos os detalhes sejam tratados de forma didática e completa.</em></p>
+
