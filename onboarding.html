@@ -3183,82 +3183,88 @@
 <h3>8. Encerramento</h3>
 <p><strong>Resumo:</strong> O fluxo recomendado é “negócio → dado → motor/CDP → segmentação → execução → medição → iteração”. A disciplina no template, a dupla solicitação para push e o uso combinado dos painéis garantem consistência de ponta a ponta.</p>
 <p><em>Nota final: em migrações de canal (como a do push para a Adobe), antecipe o pedido de dados na CDP para que nenhuma campanha fique indisponível no corte.</em></p>
-<h2>Playbook Detalhado: Abertura de Briefing para Comunicações com Base Externa</h2>
-<p><strong>Objetivo</strong></p>
-<p>Este guia apresenta passo a passo detalhado para abrir e preencher um briefing de comunicação destinado a bases externas, sobretudo em contextos regulatórios. O objetivo é padronizar o processo, garantir a precisão técnica e evitar falhas que possam comprometer envios sensíveis. Cada etapa inclui verificações críticas de conteúdo, variáveis e configurações para assegurar que a mensagem correta chegue ao cliente certo.</p>
+<h2>Playbook de Abertura de Briefing com Base Externa (CRM)</h2>
 
-<h3>Contexto de Exemplo: Campanha de Cancelamento de Cartão Adicional</h3>
-<p><strong>Situação:</strong> Identificou-se que alguns clientes possuem cartões adicionais registrados indevidamente no mesmo CPF do titular (o que é proibido).</p>
-<p><strong>Objetivo da campanha:</strong> Enviar uma comunicação regulatória (via SMS ou Push) informando que esses cartões adicionais serão cancelados.</p>
-<p><strong>Característica da comunicação:</strong> Mensagem obrigatória definida pelo jurídico e produtos, com conteúdo previamente aprovado. Nosso papel é executar tecnicamente o disparo fielmente, respeitando todas as diretrizes.</p>
+<p>Este manual descreve passo a passo como processar uma base externa desde seu recebimento até a finalização do briefing no Workfront, seguindo estritamente o procedimento do treinamento. Inclui boas práticas de nomenclatura, organização de arquivos e responsabilidades dos times.</p>
 
-<h3>Fase 1: Preparação e Análise Crítica (Pré-Cadastro)</h3>
-<h4>1.1. Localização e Validação da Peça Criativa</h4>
-<p>A peça criativa é o texto final da mensagem (SMS, Push etc.) que o cliente receberá. Acesse a ferramenta Visto (ou repositório interno) e localize a peça pelo código ou nome da campanha.</p>
-<p><strong>Conteúdo aprovado:</strong> Lembre-se de que o conteúdo (texto, tom de voz e informações obrigatórias) foi definido pelo time de produtos e jurídico. Não altere nada do texto aprovado. Nosso papel é apenas copiar e configurar.</p>
-<p><strong>Checklist de validação:</strong></p>
+<h3>1. Contexto e responsabilidades</h3>
+<p>A base externa é gerada pelo time de Produtos, que formaliza a necessidade via “Heráclis” e assume os riscos do uso desse arquivo. Após aprovação, Produtos envia ao time de CRM um arquivo CSV com os clientes a serem comunicados.</p>
+<p>O analista de CRM deve processar essa base: criar tabela no Oracle, importar dados, configurar estímulos no MSG e preparar o briefing no Workfront. A fábrica (squad de campanha) usará essa tabela para executar o disparo.</p>
+<p>Para públicos Private há peça e comunicação distintas e requerem aprovação adicional do time de Segmentos. O time de Produtos deve garantir que a base inclua todos os dados obrigatórios (ex.: CPF do titular); se faltar algo, solicite ajuste dos Produtos.</p>
+
+<h3>2. Recebimento da Base Externa</h3>
+<p>Receba o arquivo CSV enviado pelo time de Produtos. Esse arquivo deve conter todas as informações necessárias para contato (ex.: código do cliente, nome, CPF do titular, informações de cartão, etc.). No exemplo do treinamento, a base continha colunas como OPNUMPER (código do cliente) e NOME do titular. Muitas vezes há uma coluna “agrupada” com todos os cartões do cliente e colunas separadas para cada cartão (ex.: VARIAVEL_1, VARIAVEL_2…).</p>
+<p><strong>Verifique colunas obrigatórias:</strong> confirme que o CSV inclui, no mínimo, campos como número do cliente (PNUMER/OPNUMPER), nome do titular (NOME/NMQ), CPF, flag de ativo/inativo, segmento e cartões (últimos 4 dígitos ou completos). Se faltar CPF ou outro campo crítico, peça que o time de Produtos refaça a base. Não edite o CSV manualmente (qualquer modificação põe em risco a responsabilidade de CRM).</p>
+<p><strong>Salve a base no VDI:</strong> copie o CSV para o diretório Info na sua VDI (pasta compartilhada). Use uma estrutura de pastas clara, por exemplo:</p>
 <ul>
-  <li>Ortografia e gramática: Leia atentamente a mensagem para garantir que não há erros de digitação ou português. Corrija apenas se for erro genuíno (evite mudanças de estilo).</li>
-  <li>Placeholders/Variáveis: Identifique marcadores no texto (por exemplo, XXX ou [#NOME#]) que indicam onde serão inseridos dados personalizados.</li>
-  <li>Consistência: Certifique-se de que a mensagem está clara, objetiva e compatível com o objetivo da campanha. Confirme se mencionou corretamente o motivo e termos obrigatórios.</li>
+  <li><code>Info\&lt;MATRÍCULA&gt;\Cartoes\</code> para bases de cartão.</li>
+  <li>Subpastas adicionais (ex.: Regulatorio, Cross-sell, Testes) conforme necessário.</li>
 </ul>
+<p>O diretório Info é persistente (não se perde se a VDI for reiniciada). Evite salvar arquivos apenas em “Documents” ou “Downloads” da VDI, pois eles podem ser apagados se a VDI for recriada. Guarde também nesse local cópias de artefatos relacionados (peças de comunicação, acordos, etc.) para histórico.</p>
 
-<h4>1.2. Manuseio dos Arquivos da Peça (Excel/PDF)</h4>
+<h3>3. Criação de Tabela Temporária no Oracle (CampMPI)</h3>
+<p>Abra o Oracle SQL Developer via VDI e conecte-se ao banco de dados CampMPI. Crie uma nova SQL Worksheet.</p>
+<p><strong>Nomeie a tabela:</strong> siga o padrão <code>P_&lt;MATRÍCULA&gt;_&lt;DESCRIÇÃO&gt;</code> para indicar tabela temporária de base externa. Por exemplo, <code>P_6938_BASE_EXTERN_CARTOES</code> (o “P” inicial indica tabela temporária). Use underscore para separar partes.</p>
+<p><strong>Defina colunas:</strong> crie colunas para cada campo do CSV. O Oracle não diferencia maiúsculas/minúsculas, mas normalmente se usam nomes em maiúsculas. Exemplo de colunas conforme base do treinamento:</p>
 <ul>
-  <li><strong>Download da peça:</strong> Faça o download do arquivo da peça criativa (normalmente em Excel ou PDF) através da ferramenta Visto.</li>
-  <li><strong>Problema de caminho longo no Windows:</strong> Arquivos em diretórios muito extensos podem não abrir. <br>
-  – <em>Solução:</em> copie o arquivo para um diretório local curto (ex: C:\Users\SeuUsuario\Downloads).<br>
-  – <em>Boa prática:</em> mantenha o arquivo original no diretório compartilhado para registro.</li>
+  <li><code>PNUMER VARCHAR2(100)</code>: código do cliente.</li>
+  <li><code>NMQ VARCHAR2(100)</code>: nome do cliente (titular).</li>
+  <li><code>CPF VARCHAR2(11)</code>, <code>CPF_REG VARCHAR2(11)</code>: CPFs (titular e, se aplicável, do adicional).</li>
+  <li><code>FLAG_ATIVO NUMBER</code>: flag de ativo (1 ou 0).</li>
+  <li><code>SEGMENTO VARCHAR2(10)</code>: segmento (ex.: PF).</li>
+  <li><code>RCRPO VARCHAR2(10)</code>: últimos 4 dígitos do cartão principal (texto para manter zeros).</li>
+  <li><code>VARIAVEL_1 VARCHAR2(100)</code>, <code>VARIAVEL_2 VARCHAR2(100)</code>, …: números dos cartões adicionais (texto).</li>
+  <li><code>QUANTIDADE_CARTOES NUMBER</code>: quantidade de cartões cancelados.</li>
 </ul>
+<p>As colunas de texto devem usar tipo VARCHAR2(até 100) para preservar formatação (ex.: zeros à esquerda). Os campos numéricos (FLAG_ATIVO, QUANTIDADE_CARTOES) podem ser NUMBER.</p>
+<p>Execute o comando <em>CREATE TABLE</em> para gerar a estrutura vazia no banco.</p>
 
-<h3>Fase 2: Cadastro do Estímulo na Plataforma</h3>
-<h4>2.1. Preenchimento dos Campos de Identificação do Briefing</h4>
+<h3>4. Importação da Base no Oracle</h3>
+<p>No Oracle SQL Developer, acesse o menu <em>Tools &gt; Data Import (Import Data)</em>. Isso abrirá uma janela de importação dividida em duas etapas.</p>
+<p><strong>Selecione o CSV:</strong> na primeira aba, clique em “Open” e navegue até o arquivo CSV salvo. Configure os parâmetros: verifique delimitador (geralmente vírgula), se há cabeçalho e linhas a pular. Uma pré-visualização mostrará as colunas detectadas.</p>
+<p><strong>Destino no Oracle:</strong> vá para a aba “Data to Oracle”. Em “Walner (Database)”, selecione CampMPI. Em “Table Name”, informe exatamente o nome da tabela criada (você pode copiá-lo da worksheet).</p>
+<p><strong>Mapeamento de colunas:</strong> se os nomes de coluna no CSV coincidem com os da tabela, o importador faz o mapeamento automático. Caso algum nome difira (ex.: CSV “Name” e tabela “NMQ”), ajuste manualmente clicando na coluna respectiva. É recomendado criar colunas com os mesmos nomes do cabeçalho CSV para agilizar.</p>
+<p>Clique em Import (embaixo). O sistema exibirá progresso (ex.: “127 rows imported”). Aguarde a conclusão. Se o arquivo for muito grande, o Oracle pode ficar ocupado – espere até terminar para prosseguir.</p>
+<p>Após importar, execute:</p>
+<pre><code>SELECT * FROM &lt;tabela&gt;;</code></pre>
+<p>para conferir os dados. Em seguida, conceda permissão de leitura ao serviço do CRM (usualmente por comando GRANT SELECT na tabela) para que o motor de campanha possa consumi-la.</p>
+
+<h3>5. Configuração de Estímulos no MSG</h3>
+<p>Para cada canal de comunicação da campanha, cadastre um estímulo no MSG:</p>
 <ul>
-  <li>Seu ID: [Seu ID de usuário]</li>
-  <li>Tipo de Disparo: Disparo Pontual</li>
-  <li>Canal: SMS ou Push</li>
-  <li>Segmento: PF</li>
-  <li>Produto: Cartões</li>
-  <li>Número do Briefing: [Número da Campanha]</li>
-  <li>Tipo de Comunicação: Regulatória</li>
-  <li>Número da Peça: [código da peça no Visto]</li>
-  <li>Volume de Disparos: [ex.: 3000]</li>
+  <li>Acesse o MSG (Adobe Campaign ou ferramenta equivalente). Crie um novo estímulo (ou clone um existente, se apropriado).</li>
+  <li><strong>Preencha atributos gerais:</strong> atribua ID ou nome seguindo padrão (ex.: código de campanha, segmento PF). Informe que é campanha regulatória de cartões. No campo de produto/tema, selecione Cartões. Marque o segmento PF.</li>
+  <li><strong>Conteúdo da mensagem:</strong> copie do arquivo de peça (Excel/PDF) o texto final da mensagem. Cole no MSG no campo texto, sem alterar o sentido. Defina variáveis para os itens dinâmicos. Por exemplo, substitua o local de “Últimos 4 dígitos do cartão” por <code>${Variavel1}</code>, e na descrição aponte que <em>Variavel1 = últimos 4 dígitos (coluna RCRPO):contentReference[oaicite:30]{index=30}</em>.</li>
 </ul>
-
-<h4>2.2. Configuração Específica para Canal SMS (Orçamento)</h4>
+<p><strong>Configurações específicas:</strong></p>
 <ul>
-  <li>Uniorg: 32</li>
-  <li>Conta Contábil: 800 4067</li>
-  <li>Custo por Disparo: R$ 0,04</li>
+  <li>Para SMS, informe o custo unitário (R$0,04) e a conta contábil correspondente (ex.: 8004067).</li>
+  <li>Em peças com múltiplos valores (ex.: lista de cartões no SMS), coloque tudo em um único placeholder <code>${Variavel}</code>. No exemplo, juntaram todos os últimos 4 em <code>${Variavel1}</code>, pois o SMS concatena múltiplas variáveis em um texto só.</li>
 </ul>
-<p><em>Nota:</em> mensagens acima de 160 caracteres são cobradas como múltiplos disparos. Ex.: 300 caracteres = R$0,08. Mesmo assim, pode ser melhor listar todos os cartões em um único SMS para evitar múltiplas mensagens.</p>
-<p>No Push, não há custo nem seção de orçamento.</p>
+<p><strong>Salvar estímulo:</strong> ao salvar, o MSG gerará um código único (ex.: “PFE…” para SMS). Anote esse código. Repita para todos os canais (e-mail, SMS, push).</p>
 
-<h4>2.3. Configuração do Conteúdo e Variáveis da Mensagem</h4>
+<h3>6. Abertura do Briefing no Workfront</h3>
+<p><strong>Novo pedido:</strong> no Workfront, vá em Requests e clique em “Novo Pedido”. Escolha o fluxo de demanda padrão e marque Segmento PF (e “Alta Renda” se relevante).</p>
+<p><strong>Assunto (nome interno):</strong> defina um título resumido, por exemplo “CARTÕES PROCEL – Reg. Cancelamento Adicional – Mono/Private”. Esse nome fica apenas no Workfront para identificação interna.</p>
+<p><strong>Configurações da campanha:</strong></p>
 <ul>
-  <li><strong>Descrição/Título do Estímulo:</strong> nome claro, ex: Cancelamento Cartão Adicional - CPF Titular.</li>
-  <li><strong>Texto da Mensagem:</strong> copie exatamente da peça aprovada (sem alterar nada).</li>
-  <li><strong>Substituição de Placeholders:</strong> troque XXX por variáveis [Variável 1], [Variável 2] etc.</li>
-  <li><strong>Mapeamento:</strong> associe cada variável à coluna da base de dados (ex: [Variável 1] = últimos 4 dígitos NRCRTO).</li>
-</ul>
-
-<h4>2.4. Criação e Geração do Código do Estímulo</h4>
-<ul>
-  <li>Clique em “Criar Estímulo” → o sistema gera um código único (ex: SMS_PF_12345).</li>
-  <li>Registre o código como comprovante.</li>
-  <li>Confirme se não houve erros de cadastro.</li>
-</ul>
-<p><em>Obs.:</em> No Push, o processo é igual, sem a parte de orçamento.</p>
-
-<h3>Fase 3: Pós-Criação e Boas Práticas</h3>
-<ul>
-  <li><strong>Comunicação Interna:</strong> informe o código do estímulo ao time de execução e ao solicitante.</li>
-  <li><strong>Documentação:</strong> salve prints da confirmação e anexe ao dossiê da campanha.</li>
-  <li><strong>Bases de Dados e SQL:</strong> anexe a base externa ou a query SQL usada para extração. Certifique-se de que os nomes das colunas batem com as variáveis mapeadas.</li>
-  <li><strong>Verificação Final:</strong> confirme ambiente de disparo correto (Produção), revise campos e, se possível, peça dupla checagem por outro colega.</li>
-</ul>
-
-<p><em>Seguindo este playbook passo a passo, a abertura de briefing para bases externas (especialmente em comunicações regulatórias) será feita com consistência, reduzindo riscos de erros e garantindo que todos os detalhes sejam tratados de forma didática e completa.</em></p>
+  <li><strong>Tipo:</strong> Campanha Dirigida.</li>
+  <li><strong>Bloco/Tema:</strong> Regulatória – Cartões Adicional.</li>
+  <li><strong>Objetivo:</strong> descreva brevemente (ex.: “Informar cliente PF mono e private sobre cancelamento de cartão adicional cadastrado irregularmente”).</li>
+  <li><strong>Periodicidade:</strong> Pontual/Sazonal, com data de disparo definida.</li>
+  <li><strong>Canais:</strong> selecione E-mail, SMS e Push.</li>
+  <li><strong>Nome da campanha (campanha IBM):</strong> siga o padrão interno, por exemplo “REGO PF CARTÕES Cancelamento Adicional – Mono Private”.</li>
+  <li><strong>Público-alvo / Motor:</strong> marque “Base Externa”. No campo seguinte, digite o nome completo da tabela Oracle que foi criada (ex.: CampMPI.T_824702). Como a base externa já define quem receberá, não é preciso especificar filtros adicionais.</li>
+  <li><strong>Diferenciação de comunicação (VDS):</strong> caso tenha separado bases para ativos/inativos, indique: ex. VDSA filtro “ATIVO = 1” e VDSB filtro “ATIVO = 0”. No exemplo, como serão criados briefings distintos para ativos e inativos, esse ajuste ficou em branco.</li>
+  <li><strong>Peças/Criativos:</strong> na área apropriada, liste cada arte a ser enviada:
+    <ul>
+      <li><strong>E-mail:</strong> selecione o canal E-mail, insira o código do estímulo de e-mail criado (ex.: 195305) e o link ou ID da peça de e-mail fornecido pelo time de criação.</li>
+      <li><strong>SMS:</strong> selecione SMS e coloque o código do estímulo de SMS.</li>
+      <li><strong>Push:</strong> selecione Push e coloque o código do estímulo de push.</li>
+    </ul>
+    A fábrica usará esses códigos para buscar as peças no sistema durante a construção da campanha.
+  </li>
+  <li><strong>Documentos:</strong> anexe aqui arquivos de apoio, se houver. Por exemplo, o próprio e-mail com a base de clientes e acordos legais recebidos podem ser colocados para registro histórico. Não é obrigatório anexar a base em si, mas manter o histórico evita dúvidas futuras.</li>
 
 <h2>Playbook: Como Abrir um Briefing de Campanha</h2>
 
